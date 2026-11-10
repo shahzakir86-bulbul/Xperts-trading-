@@ -1,0 +1,1922 @@
+<!DOCTYPE html>
+<html lang="en" class="antialiased">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Xperts Trading - Diesel Supply & Logistics Karachi</title>
+    <!-- Tailwind CSS with hardware acceleration support -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Firebase SDKs (App, Database & Messaging) -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-messaging-compat.js"></script>
+    <!-- Google Maps Places API for Karachi Auto-suggestions -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places" async defer onerror="console.log('Google Maps failed to load offline, continuing...')"></script>
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+            -webkit-tap-highlight-color: transparent;
+        }
+        @keyframes pulseLogo {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 25px rgba(220, 38, 38, 0.5); }
+            50% { transform: scale(1.06); box-shadow: 0 0 40px rgba(220, 38, 38, 0.8); }
+        }
+        .animate-logo { animation: pulseLogo 2.5s infinite ease-in-out; }
+        @keyframes slideIn {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .animate-slide { animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        * {
+            -webkit-transform: translateZ(0);
+            transform: translateZ(0);
+        }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #020617; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
+        
+        .swipeable-card {
+            transition: transform 0.2s ease, opacity 0.2s ease;
+            touch-action: pan-y;
+        }
+        .pac-container {
+            background-color: #090d16 !important;
+            color: #f8fafc !important;
+            border: 1px solid #1e293b !important;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+            z-index: 999999 !important;
+            border-radius: 0.5rem !important;
+            margin-top: 4px !important;
+        }
+        .pac-item {
+            color: #cbd5e1 !important;
+            border-top: 1px solid #1e293b !important;
+            padding: 8px 12px !important;
+        }
+        .pac-item:hover {
+            background-color: #1e293b !important;
+            color: #ffffff !important;
+        }
+        .pac-item-query { color: #ffffff !important; }
+        .pac-icon { filter: invert(1) brightness(1.5); }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col justify-between selection:bg-red-600 selection:text-white">
+
+    <!-- FLOATING NOTIFICATION BANNER -->
+    <div id="notificationToast" class="fixed top-4 left-4 right-4 z-50 max-w-md mx-auto hidden transform transition-all duration-300">
+        <div id="toastContent" class="bg-slate-900 border border-red-500/50 p-4 rounded-xl shadow-2xl shadow-red-950/80 flex items-start gap-3 animate-slide backdrop-blur-md">
+            <div id="toastIcon" class="w-10 h-10 rounded-xl bg-red-600/20 text-red-500 flex items-center justify-center flex-shrink-0 text-lg border border-red-500/30">
+                <i class="fa-solid fa-bell"></i>
+            </div>
+            <div class="flex-grow">
+                <h4 id="toastTitle" class="text-sm font-bold text-white tracking-wide">Notification</h4>
+                <p id="toastMessage" class="text-xs text-slate-300 mt-0.5 leading-relaxed">Details here...</p>
+            </div>
+            <button type="button" onclick="hideNotificationToast()" class="text-slate-400 hover:text-white text-xs p-1 transition-colors">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- STARTUP SPLASH SCREEN -->
+    <div id="splashScreen" class="fixed inset-0 bg-slate-950 z-50 flex flex-col items-center justify-center p-6 space-y-6 transition-opacity duration-700">
+        <div class="relative w-32 h-32 rounded-3xl bg-gradient-to-br from-red-600 via-red-700 to-red-950 p-1 shadow-2xl shadow-red-900/60 animate-logo flex items-center justify-center border border-red-500/50 overflow-hidden">
+            <div class="w-full h-full bg-slate-950 rounded-2xl flex flex-col items-center justify-center overflow-hidden relative">
+                <span class="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-600 tracking-tighter">X</span>
+                <span class="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">TRADING</span>
+            </div>
+        </div>
+        <div class="text-center space-y-2 max-w-xs">
+            <h1 class="text-2xl font-extrabold text-white tracking-tight">Xperts Trading</h1>
+            <p class="text-xs text-red-400 font-semibold tracking-widest uppercase">Diesel Supply Karachi</p>
+            <p class="text-[10px] text-slate-500 font-medium">Pakistan's Premier Diesel Fleet & Logistics Platform</p>
+        </div>
+        <div class="flex items-center space-x-2 pt-4">
+            <div class="w-2 h-2 bg-red-600 rounded-full animate-bounce"></div>
+            <div class="w-2 h-2 bg-red-600 rounded-full animate-bounce [animation-delay:-.2s]"></div>
+            <div class="w-2 h-2 bg-red-600 rounded-full animate-bounce [animation-delay:-.4s]"></div>
+        </div>
+    </div>
+
+    <!-- Header / Brand Section -->
+    <header class="bg-slate-900/90 backdrop-blur-md border-b border-slate-800 p-4 sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 bg-gradient-to-br from-red-600 to-red-800 rounded-xl flex items-center justify-center font-black text-white shadow-lg shadow-red-900/40 text-xl border border-red-500/30">
+                    X
+                </div>
+                <div>
+                    <h1 class="text-base font-bold text-white leading-tight tracking-tight flex items-center gap-1.5">
+                        Xperts Trading
+                        <span class="text-[9px] bg-red-600/30 text-red-400 border border-red-500/30 px-1.5 py-0.2 rounded uppercase font-semibold">VERIFIED</span>
+                    </h1>
+                    <p class="text-[11px] text-red-400 font-medium">Diesel Supply & Logistics Karachi (Web Portal)</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-2">
+                <button type="button" onclick="openCompanyProfileModal()" class="bg-slate-800 hover:bg-slate-700 text-xs text-slate-300 font-medium px-3.5 py-2 rounded-full border border-slate-700 flex items-center gap-1.5 transition active:scale-95 shadow">
+                    <i class="fa-solid fa-building text-red-500"></i> Company Profile
+                </button>
+                <button type="button" onclick="openAdminLogin()" id="adminNavBtn" class="bg-slate-800 hover:bg-slate-700 text-xs text-slate-300 font-medium px-3.5 py-2 rounded-full border border-slate-700 flex items-center gap-1.5 transition active:scale-95 shadow">
+                    <i class="fa-solid fa-lock text-red-500"></i> Admin Portal
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Web Application Container (Responsive Grid: Customer view vs Admin view) -->
+    <main class="max-w-7xl mx-auto w-full p-4 md:p-6 flex-grow space-y-6">
+
+        <!-- 1. CUSTOMER ORDER VIEW -->
+        <div id="customerView" class="space-y-6">
+            
+            <!-- Direct Order Header Card -->
+            <div id="param_cust_headerBanner" class="bg-gradient-to-r from-red-950/40 via-slate-900 to-slate-900 p-6 rounded-2xl border border-red-900/30 flex flex-col md:flex-row items-center justify-between shadow-xl gap-4">
+                <div>
+                    <p class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Direct Order Portal</p>
+                    <h2 class="text-2xl font-bold text-white mt-1 tracking-tight">Book Diesel Delivery in Karachi</h2>
+                    <p class="text-xs text-slate-400 mt-1">World class quality high speed diesel supply for industrial, commercial & retail units.</p>
+                </div>
+                <div class="bg-red-950/60 border border-red-500/30 px-5 py-3 rounded-xl text-center shadow-inner flex-shrink-0">
+                    <p class="text-[11px] text-slate-300 uppercase tracking-wider font-semibold">Live Diesel Rate</p>
+                    <p id="displayRate" class="text-2xl font-black text-red-400 mt-0.5">Rs. 280<span class="text-xs font-normal text-slate-400">/L</span></p>
+                </div>
+            </div>
+
+            <!-- Web Desktop Two-Column Layout for Customer Portal -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                
+                <!-- Left Column: Booking Form (2 Spans on Desktop) -->
+                <div class="lg:col-span-2 bg-slate-900 p-6 rounded-2xl border border-slate-800 shadow-xl space-y-5">
+                    <h3 class="text-base font-bold text-white flex items-center gap-2 border-b border-slate-800 pb-3">
+                        <i class="fa-solid fa-gas-pump text-red-500"></i> Diesel Booking Form
+                    </h3>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div id="param_cust_quantitySection">
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">Required Quantity (Liters)</label>
+                            <div class="relative">
+                                <input type="number" id="literInput" value="500" oninput="calculateTotal()" class="w-full bg-slate-950 border border-slate-700 rounded-xl py-3 px-3 pl-10 text-white font-bold text-lg focus:outline-none focus:border-red-500 transition-colors">
+                                <i class="fa-solid fa-gas-pump absolute left-3.5 top-4 text-slate-500"></i>
+                            </div>
+                            <div class="grid grid-cols-5 gap-2 mt-2">
+                                <button type="button" onclick="setLiters(200)" class="bg-slate-800 hover:bg-slate-700 text-xs text-slate-300 py-2 rounded-lg border border-slate-700 text-center font-medium transition active:scale-95">200 L</button>
+                                <button type="button" onclick="setLiters(500)" class="bg-slate-800 hover:bg-slate-700 text-xs text-slate-300 py-2 rounded-lg border border-slate-700 text-center font-medium transition active:scale-95">500 L</button>
+                                <button type="button" onclick="setLiters(1000)" class="bg-slate-800 hover:bg-slate-700 text-xs text-slate-300 py-2 rounded-lg border border-slate-700 text-center font-medium transition active:scale-95">1000 L</button>
+                                <button type="button" onclick="setLiters(2000)" class="bg-slate-800 hover:bg-slate-700 text-xs text-slate-300 py-2 rounded-lg border border-slate-700 text-center font-medium transition active:scale-95">2000 L</button>
+                                <button type="button" onclick="setLiters(5000)" class="bg-slate-800 hover:bg-slate-700 text-xs text-red-400 py-2 rounded-lg border border-slate-700 text-center font-bold transition active:scale-95">5000 L</button>
+                            </div>
+                        </div>
+
+                        <div id="param_cust_deliveryDate">
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">Required Delivery Date</label>
+                            <div class="relative">
+                                <input type="date" id="deliveryDateInput" class="w-full bg-slate-950 border border-slate-700 rounded-xl py-3 px-3 text-slate-200 text-sm focus:outline-none focus:border-red-500 transition-colors">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="param_cust_locationInput">
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">Delivery Location (Karachi City)</label>
+                        <div class="flex gap-2 mb-2">
+                            <select id="locationSelect" onchange="onLocationDropdownChange()" class="w-2/3 bg-slate-950 border border-slate-700 rounded-xl p-3 text-slate-200 text-xs focus:outline-none focus:border-red-500 transition-colors">
+                                <option value="SITE Industrial Area">SITE Industrial Area</option>
+                                <option value="Korangi Industrial Area">Korangi Industrial Area</option>
+                                <option value="Landhi Industrial Zone">Landhi Industrial Zone</option>
+                                <option value="FB Area Industrial Zone">FB Area Industrial Zone</option>
+                                <option value="Port Qasim / Bin Qasim">Port Qasim / Bin Qasim</option>
+                                <option value="Hawkesbay Industrial Estate">Hawkesbay Industrial Estate</option>
+                                <option value="Other">Other (Type & Auto-suggest)</option>
+                            </select>
+                            <button type="button" onclick="fetchGPSLocation()" class="w-1/3 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs py-3 px-3 rounded-xl shadow transition active:scale-95 flex items-center justify-center gap-1.5">
+                                <i class="fa-solid fa-location-crosshairs"></i> GPS Location
+                            </button>
+                        </div>
+                        <input type="text" id="customLocationInput" placeholder="Type area/factory in Karachi (e.g. Nazimabad)..." class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-red-500 transition-colors">
+                    </div>
+
+                    <div id="param_cust_detailsInputs" class="grid grid-cols-1 md:grid-cols-3 gap-3 border-t border-slate-800 pt-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">Company / Customer Name</label>
+                            <input type="text" id="custName" oninput="onCustomerNameInput()" placeholder="e.g. Al-Madina Textiles" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-red-500 transition-colors">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">Phone Number</label>
+                            <input type="tel" id="custPhone" placeholder="0300-1234567" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-red-500 transition-colors">
+                        </div>
+                        <div id="imageUploadContainer">
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">Company Logo <span class="text-slate-500 font-normal">(Optional)</span></label>
+                            <input type="file" id="custImage" accept="image/*" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2 text-xs text-slate-400 file:mr-2 file:py-1 file:px-2.5 file:rounded-md file:border-0 file:text-[10px] file:font-semibold file:bg-red-600 file:text-white hover:file:bg-red-700 transition">
+                        </div>
+                    </div>
+
+                    <div id="param_cust_paymentSelection" class="space-y-3 border-t border-slate-800 pt-4">
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">Payment Method & Account Type</label>
+                        <div class="bg-slate-950 p-1.5 rounded-xl border border-slate-800 grid grid-cols-4 gap-1 mb-2">
+                            <button type="button" onclick="switchCustomerPayTab('cod')" id="custTabBtn_cod" class="py-2 text-xs font-bold rounded-lg bg-red-600 text-white transition">1. COD</button>
+                            <button type="button" onclick="switchCustomerPayTab('cheque')" id="custTabBtn_cheque" class="py-2 text-xs font-semibold rounded-lg text-slate-400 hover:text-white transition">2. Cheque</button>
+                            <button type="button" onclick="switchCustomerPayTab('loan')" id="custTabBtn_loan" class="py-2 text-xs font-semibold rounded-lg text-slate-400 hover:text-white transition">3. Loan</button>
+                            <button type="button" onclick="switchCustomerPayTab('credit')" id="custTabBtn_credit" class="py-2 text-xs font-semibold rounded-lg text-slate-400 hover:text-white transition">4. Credit</button>
+                        </div>
+
+                        <div id="custPayTab_cod" class="cust-pay-content space-y-2">
+                            <select id="paymentMode" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-slate-200 text-sm focus:outline-none focus:border-red-500 transition-colors">
+                                <option>Cash on Delivery (COD)</option>
+                                <option>Bank Transfer</option>
+                                <option>JazzCash</option>
+                                <option>EasyPaisa</option>
+                                <option>Raast Transfer</option>
+                            </select>
+                        </div>
+
+                        <div id="custPayTab_cheque" class="cust-pay-content space-y-2 hidden">
+                            <div class="grid grid-cols-2 gap-2">
+                                <input type="number" id="custChequeAmount" placeholder="Cheque Amount (Rs)" class="bg-slate-950 border border-slate-700 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-red-500">
+                                <input type="date" id="custChequeDate" class="bg-slate-950 border border-slate-700 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-red-500">
+                            </div>
+                        </div>
+
+                        <div id="custPayTab_loan" class="cust-pay-content space-y-2 hidden">
+                            <div class="grid grid-cols-2 gap-2">
+                                <input type="number" id="custLoanAmount" placeholder="Installment Amount (Rs)" class="bg-slate-950 border border-slate-700 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-red-500">
+                                <input type="date" id="custLoanDate" class="bg-slate-950 border border-slate-700 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-red-500">
+                            </div>
+                        </div>
+
+                        <div id="custPayTab_credit" class="cust-pay-content space-y-2 hidden">
+                            <div class="grid grid-cols-2 gap-2">
+                                <input type="number" id="custCreditAmount" placeholder="Credit Payment (Rs)" class="bg-slate-950 border border-slate-700 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-red-500">
+                                <input type="date" id="custCreditDate" class="bg-slate-950 border border-slate-700 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-red-500">
+                            </div>
+                        </div>
+
+                        <div id="customerActivePaymentAccounts" class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2.5 mt-3">
+                            <p class="text-xs font-bold text-red-400 uppercase tracking-wider"><i class="fa-solid fa-shield-halved mr-1"></i> Official Company Payment Accounts</p>
+                            <div id="customerAccountsList" class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs"></div>
+                        </div>
+                    </div>
+
+                    <div class="pt-4 border-t border-slate-800 flex items-center justify-between">
+                        <div>
+                            <p class="text-xs text-slate-400">Estimated Total Amount</p>
+                            <p id="totalPrice" class="text-2xl font-black text-red-500">Rs. 140,000</p>
+                        </div>
+                        <button type="button" id="param_cust_bookBtn" onclick="placeOrder()" class="bg-red-600 hover:bg-red-700 text-white font-bold text-sm px-8 py-3.5 rounded-xl shadow-xl shadow-red-900/40 flex items-center gap-2.5 transition active:scale-95">
+                            <i class="fa-solid fa-paper-plane"></i> Book Order Now
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Right Column: Ledger, Sound Settings & My Bookings -->
+                <div class="space-y-6">
+                    
+                    <!-- CUSTOMER FCM RINGTONE & SOUND ALERT CARD -->
+                    <div id="param_cust_soundSettings" class="bg-slate-900 rounded-2xl border border-slate-800 p-5 space-y-3 shadow-xl">
+                        <h3 class="text-sm font-bold text-white flex items-center gap-1.5 border-b border-slate-800 pb-2">
+                            <i class="fa-solid fa-music text-red-500"></i> FCM Ringtone & Alerts
+                        </h3>
+                        <p class="text-[11px] text-slate-400">Customized notification sound set karein ya audio upload karein.</p>
+                        
+                        <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800 space-y-2.5 text-xs">
+                            <div class="flex items-center justify-between">
+                                <span class="font-bold text-white">Notification Alert</span>
+                                <input type="checkbox" id="cust_sound_toggle" onchange="saveCustomerSoundSettings()" class="w-4 h-4 accent-red-600 cursor-pointer" checked>
+                            </div>
+
+                            <div>
+                                <label class="block text-[10px] font-semibold text-slate-300 mb-1">Choose Custom Sound</label>
+                                <input type="file" id="custCustomAudioFile" accept="audio/*" onchange="handleCustomerCustomAudioUpload(this)" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-1.5 text-xs text-slate-400 file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-[10px] file:font-bold file:bg-red-600 file:text-white">
+                            </div>
+
+                            <div class="flex gap-2 items-center pt-1">
+                                <select id="custPresetSoundSelect" onchange="saveCustomerSoundSettings()" class="w-2/3 bg-slate-900 border border-slate-700 rounded-lg p-2 text-white text-xs focus:outline-none">
+                                    <option value="default">WhatsApp Chime</option>
+                                    <option value="bell">Classic Bell</option>
+                                    <option value="siren">Loud Siren</option>
+                                    <option value="beep">Digital Beep</option>
+                                </select>
+                                <button type="button" onclick="testNotificationSound('customer')" class="w-1/3 bg-slate-800 hover:bg-slate-700 text-white font-semibold py-2 rounded-lg border border-slate-700 transition text-[11px] flex items-center justify-center gap-1">
+                                    <i class="fa-solid fa-volume-high text-red-500"></i> Test
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Customer Account Ledger -->
+                    <div id="param_cust_accountLedger" class="bg-slate-900 p-5 rounded-2xl border border-slate-800 shadow-xl space-y-3">
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                            <span class="text-xs font-bold text-slate-200"><i class="fa-solid fa-wallet text-red-500 mr-1"></i> My Account Ledger</span>
+                            <span class="text-[10px] bg-slate-800 text-slate-400 px-2.5 py-0.5 rounded-full font-semibold">Karachi Client</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                                <p class="text-[10px] text-slate-400">Total Outstanding</p>
+                                <p id="custOutstanding" class="text-base font-black text-red-500 mt-0.5">Rs. 0</p>
+                            </div>
+                            <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                                <p class="text-[10px] text-slate-400">Last Status / Paid</p>
+                                <p id="custLastStatus" class="text-xs font-bold text-emerald-400 mt-1">No Dues / Paid</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Customer My Bookings Section -->
+                    <div id="param_cust_myBookings" class="bg-slate-900 rounded-2xl border border-slate-800 p-5 space-y-3 shadow-xl">
+                        <h3 class="text-sm font-bold text-white flex items-center justify-between border-b border-slate-800 pb-2">
+                            <span>My Bookings & Status</span>
+                            <span class="text-[10px] font-normal text-slate-400">Cancel / Receive & Sign</span>
+                        </h3>
+                        <div id="customerMyOrdersList" class="space-y-2.5 max-h-80 overflow-y-auto pr-1">
+                            <p class="text-xs text-slate-500 text-center py-4">Enter your company name above to view your bookings.</p>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- 2. SUPPLIER / ADMIN DASHBOARD VIEW -->
+        <div id="supplierView" class="space-y-6 hidden">
+            
+            <div class="flex items-center justify-between bg-slate-900 p-4 rounded-2xl border border-slate-800 shadow-xl">
+                <div class="flex items-center space-x-3">
+                    <button type="button" onclick="openSettingsParametersModal()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 w-10 h-10 rounded-xl border border-slate-700 flex items-center justify-center shadow transition active:scale-95" title="Dashboard Parameters">
+                        <i class="fa-solid fa-bars text-red-500 text-base"></i>
+                    </button>
+                    <div>
+                        <h3 class="text-base font-bold text-white">Supplier Control Panel & Web Dashboard</h3>
+                        <p class="text-xs text-red-400 font-medium">Welcome, Admin (Xperts Trading Headquarters)</p>
+                    </div>
+                </div>
+                <button type="button" onclick="logoutAdmin()" class="bg-slate-800 hover:bg-slate-700 text-xs text-slate-300 px-4 py-2 rounded-xl border border-slate-700 transition active:scale-95 font-semibold">
+                    <i class="fa-solid fa-right-from-bracket mr-1"></i> Logout Admin
+                </button>
+            </div>
+
+            <!-- Admin Grid Layout on Desktop -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                
+                <!-- Left Column: Controls & Financials (2 Spans) -->
+                <div class="lg:col-span-2 space-y-6">
+                    
+                    <!-- Summary Stats Cards -->
+                    <div id="param_admin_summaryStats" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800 shadow-xl flex items-center justify-between">
+                            <div>
+                                <p class="text-xs text-slate-400 font-semibold uppercase tracking-wider">Total Active Bookings</p>
+                                <p id="totalOrdersCount" class="text-3xl font-black text-white mt-1">0</p>
+                            </div>
+                            <div class="w-12 h-12 rounded-xl bg-red-600/20 text-red-500 flex items-center justify-center text-xl border border-red-500/30">
+                                <i class="fa-solid fa-truck-fast"></i>
+                            </div>
+                        </div>
+                        <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800 shadow-xl flex items-center justify-between">
+                            <div>
+                                <p class="text-xs text-slate-400 font-semibold uppercase tracking-wider">Live System Sync</p>
+                                <p class="text-3xl font-black text-emerald-500 mt-1">Online <span class="text-xs text-slate-400 font-normal">Firebase</span></p>
+                            </div>
+                            <div class="w-12 h-12 rounded-xl bg-emerald-600/20 text-emerald-500 flex items-center justify-center text-xl border border-emerald-500/30">
+                                <i class="fa-solid fa-wifi"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Admin Price Customizer Card -->
+                    <div id="param_admin_priceCustomizer" class="bg-gradient-to-r from-red-950/40 via-slate-900 to-slate-900 p-5 rounded-2xl border border-red-900/40 flex items-center justify-between shadow-xl">
+                        <div>
+                            <p class="text-xs text-slate-400 font-semibold">Current Fuel Rate (High Speed Diesel)</p>
+                            <p id="adminCurrentRateDisplay" class="text-2xl font-black text-white mt-0.5">Rs. 280 / Liter</p>
+                        </div>
+                        <button type="button" onclick="updateFuelRate()" class="bg-red-600 hover:bg-red-700 text-white text-xs font-bold px-5 py-3 rounded-xl shadow-lg border border-red-500/40 flex items-center gap-2 transition active:scale-95">
+                            <i class="fa-solid fa-pen-to-square"></i> Change Fuel Rate
+                        </button>
+                    </div>
+
+                    <!-- Automatic P&L Statement Generator -->
+                    <div id="param_admin_plStatement" class="bg-slate-900 rounded-2xl border border-slate-800 p-5 space-y-4 shadow-xl">
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                            <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                                <i class="fa-solid fa-file-invoice-dollar text-emerald-400"></i> Automatic P&L Statement
+                            </h3>
+                            <span class="text-[10px] bg-emerald-600/20 text-emerald-400 px-2.5 py-1 rounded-md border border-emerald-500/30 font-bold uppercase">Live Financials</span>
+                        </div>
+                        <div class="grid grid-cols-3 gap-3 text-center text-xs">
+                            <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800">
+                                <p class="text-[10px] text-slate-400">Total Revenue</p>
+                                <p id="plTotalRevenue" class="text-sm font-black text-white mt-1">Rs. 0</p>
+                            </div>
+                            <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800">
+                                <p class="text-[10px] text-slate-400">Total Expenses</p>
+                                <p id="plTotalExpenses" class="text-sm font-black text-red-400 mt-1">Rs. 0</p>
+                            </div>
+                            <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800">
+                                <p class="text-[10px] text-slate-400">Net Operating Margin</p>
+                                <p id="plNetMargin" class="text-sm font-black text-emerald-400 mt-1">Rs. 0</p>
+                            </div>
+                        </div>
+                        <button type="button" onclick="openPLReportModal()" class="w-full bg-slate-950 hover:bg-slate-800 text-white text-xs font-semibold py-3 rounded-xl border border-slate-700 transition flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-chart-line text-emerald-400"></i> View Detailed P&L Statement Breakdown
+                        </button>
+                    </div>
+
+                    <!-- Tanker & Transport Expense Tracker -->
+                    <div id="param_admin_expenseTracker" class="bg-slate-900 rounded-2xl border border-slate-800 p-5 space-y-4 shadow-xl">
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                            <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                                <i class="fa-solid fa-truck-monster text-amber-500"></i> Tanker & Transport Expense Tracker
+                            </h3>
+                            <span class="text-xs text-slate-400 font-medium">Logistics & Profit Layer</span>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3 bg-slate-950 p-3.5 rounded-xl border border-slate-800 text-xs">
+                            <div>
+                                <p class="text-slate-400">Total Transport Expenses</p>
+                                <p id="totalExpenseDisplay" class="text-sm font-bold text-red-400 mt-0.5">Rs. 0</p>
+                            </div>
+                            <div>
+                                <p class="text-slate-400">Est. Net Profit (Margin)</p>
+                                <p id="netProfitDisplay" class="text-sm font-bold text-emerald-400 mt-0.5">Rs. 0</p>
+                            </div>
+                        </div>
+
+                        <div class="space-y-2.5 bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs">
+                            <p class="font-bold text-slate-300">Add New Logistics Expense</p>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                <input type="text" id="expenseTankerNo" placeholder="Tanker/Driver (e.g. T-8812)" class="bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-white focus:outline-none focus:border-red-500">
+                                <select id="expenseType" class="bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-slate-200 focus:outline-none">
+                                    <option value="Tanker Rent">Tanker Rent</option>
+                                    <option value="Fuel / Diesel">Tanker Fuel</option>
+                                    <option value="Driver Salary/Batta">Driver Batta</option>
+                                    <option value="Toll / Misc">Toll Tax / Misc</option>
+                                </select>
+                            </div>
+                            <div class="flex gap-2">
+                                <input type="number" id="expenseAmount" placeholder="Expense Amount (Rs)" class="w-2/3 bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-white focus:outline-none focus:border-red-500">
+                                <button type="button" onclick="addTransportExpense()" class="w-1/3 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-xl px-4 py-2.5 transition active:scale-95 shadow">
+                                    + Add Expense
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="expenseListContainer" class="space-y-2 max-h-48 overflow-y-auto pr-1 text-xs">
+                            <p class="text-xs text-slate-500 text-center py-2">No expenses recorded yet.</p>
+                        </div>
+                    </div>
+
+                    <!-- Business Reports & Export Section -->
+                    <div id="param_admin_reportsExport" class="bg-slate-900 rounded-2xl border border-slate-800 p-5 space-y-4 shadow-xl">
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                            <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                                <i class="fa-solid fa-chart-pie text-red-500"></i> Business Reports & Export
+                            </h3>
+                            <span class="text-xs text-slate-400 flex items-center gap-1.5 font-semibold">
+                                <i class="fa-solid fa-sliders text-red-400"></i> PDF / CSV Ready
+                            </span>
+                        </div>
+                        
+                        <p class="text-xs text-slate-400">Generate fully customized business reports with selective filters and instant mobile/desktop download.</p>
+
+                        <button type="button" onclick="openReportCustomizerModal()" class="w-full bg-gradient-to-r from-red-600 to-red-800 hover:from-red-500 hover:to-red-700 text-white font-bold text-xs py-3.5 px-4 rounded-xl shadow-lg shadow-red-950/50 flex items-center justify-center gap-2 transition active:scale-98 border border-red-500/30">
+                            <i class="fa-solid fa-sliders text-sm"></i> Customize & Generate Report
+                        </button>
+
+                        <div id="reportOutputContainer" class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs space-y-3 hidden">
+                            <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+                                <h4 id="reportTitle" class="font-bold text-white text-xs">Customized Business Report</h4>
+                                <div class="flex gap-2 items-center">
+                                    <button type="button" onclick="exportReportPDF()" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 shadow">
+                                        <i class="fa-solid fa-file-pdf"></i> PDF (TXT)
+                                    </button>
+                                    <button type="button" onclick="exportReportCSV()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 shadow">
+                                        <i class="fa-solid fa-file-csv"></i> CSV
+                                    </button>
+                                    <button type="button" onclick="closeReportOutput()" class="text-slate-400 hover:text-white text-xs ml-2 p-1">
+                                        <i class="fa-solid fa-xmark text-sm"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="reportContent" class="space-y-2 text-slate-300 max-h-72 overflow-y-auto overflow-x-auto pr-1"></div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Right Column: Settings, Notifications & Orders Table -->
+                <div class="space-y-6">
+                    
+                    <!-- OPTION 1: FCM RINGTONE & NOTIFICATION SOUND ALERT TAB -->
+                    <div id="param_admin_fcmSoundNotif" class="bg-slate-900 rounded-2xl border border-slate-800 p-5 space-y-4 shadow-xl">
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                            <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                                <i class="fa-solid fa-bell-ring text-red-500"></i> FCM Ringtone & Alert Settings
+                            </h3>
+                            <button type="button" onclick="toggleFcmNotificationSection()" class="bg-slate-800 hover:bg-slate-700 text-xs text-slate-300 px-3 py-1 rounded-lg border border-slate-700 flex items-center gap-1 transition">
+                                <span id="fcmToggleLabel">Configure</span> <i id="fcmToggleIcon" class="fa-solid fa-chevron-down text-[10px]"></i>
+                            </button>
+                        </div>
+                        <p class="text-[11px] text-slate-400">Manage admin & customer push notifications and custom alert ringtones.</p>
+                        
+                        <div id="fcmNotificationContent" class="space-y-3 pt-1">
+                            
+                            <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-3">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="text-xs font-bold text-white">Master Notification Ringtone</p>
+                                        <p class="text-[10px] text-slate-400">Play tone on real-time event updates</p>
+                                    </div>
+                                    <input type="checkbox" id="toggle_master_sound" onchange="saveFcmNotificationSettings()" class="w-4 h-4 accent-red-600 cursor-pointer" checked>
+                                </div>
+
+                                <div>
+                                    <label class="block text-[10px] font-semibold text-slate-300 mb-1">Choose Custom Sound File</label>
+                                    <input type="file" id="adminCustomAudioFile" accept="audio/*" onchange="handleAdminCustomAudioUpload(this)" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-slate-400 file:mr-2 file:py-1 file:px-2.5 file:rounded file:border-0 file:text-[10px] file:font-bold file:bg-red-600 file:text-white">
+                                </div>
+
+                                <div class="flex gap-2 items-center pt-1">
+                                    <select id="adminPresetSoundSelect" onchange="saveFcmNotificationSettings()" class="w-2/3 bg-slate-900 border border-slate-700 rounded-lg p-2 text-white text-xs focus:outline-none">
+                                        <option value="default">WhatsApp Chime</option>
+                                        <option value="bell">Classic Bell</option>
+                                        <option value="siren">Loud Siren</option>
+                                        <option value="beep">Digital Beep</option>
+                                    </select>
+                                    <button type="button" onclick="testNotificationSound('admin')" class="w-1/3 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold py-2 rounded-lg border border-slate-700 transition flex items-center justify-center gap-1">
+                                        <i class="fa-solid fa-volume-high text-red-500"></i> Test
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Admin Receiving Notifications -->
+                            <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2.5">
+                                <p class="text-xs font-bold text-red-400 uppercase tracking-wider"><i class="fa-solid fa-user-shield mr-1"></i> Admin Receiving Alerts</p>
+                                
+                                <div class="flex items-center justify-between bg-slate-900 p-2.5 rounded-lg border border-slate-800 text-xs">
+                                    <span class="text-white font-medium">Booking Notification</span>
+                                    <input type="checkbox" id="toggle_admin_notif_booking" onchange="saveFcmNotificationSettings()" class="w-4 h-4 accent-red-600 cursor-pointer" checked>
+                                </div>
+                                <div class="flex items-center justify-between bg-slate-900 p-2.5 rounded-lg border border-slate-800 text-xs">
+                                    <span class="text-white font-medium">Cancel Notification</span>
+                                    <input type="checkbox" id="toggle_admin_notif_cancel" onchange="saveFcmNotificationSettings()" class="w-4 h-4 accent-red-600 cursor-pointer" checked>
+                                </div>
+                                <div class="flex items-center justify-between bg-slate-900 p-2.5 rounded-lg border border-slate-800 text-xs">
+                                    <span class="text-white font-medium">Material Received Sign</span>
+                                    <input type="checkbox" id="toggle_admin_notif_received" onchange="saveFcmNotificationSettings()" class="w-4 h-4 accent-red-600 cursor-pointer" checked>
+                                </div>
+                                <div class="flex items-center justify-between bg-slate-900 p-2.5 rounded-lg border border-slate-800 text-xs">
+                                    <span class="text-white font-medium">Payment Notification</span>
+                                    <input type="checkbox" id="toggle_admin_notif_payment" onchange="saveFcmNotificationSettings()" class="w-4 h-4 accent-red-600 cursor-pointer" checked>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- ADMIN WHATSAPP NOTIFICATION SETTINGS -->
+                    <div id="param_admin_whatsappSettings" class="bg-slate-900 rounded-2xl border border-slate-800 p-5 space-y-3 shadow-xl">
+                        <h3 class="text-sm font-bold text-white flex items-center gap-2 border-b border-slate-800 pb-2">
+                            <i class="fa-brands fa-whatsapp text-emerald-400"></i> Admin WhatsApp Auto-Alerts
+                        </h3>
+                        <div class="space-y-2.5 text-xs">
+                            <div>
+                                <label class="block text-slate-300 mb-1 font-semibold">Admin WhatsApp Number</label>
+                                <input type="text" id="adminWhatsAppInput" placeholder="923001234567" oninput="saveAdminWhatsAppSettings()" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white text-xs focus:outline-none focus:border-red-500">
+                            </div>
+                            <div class="flex items-center justify-between bg-slate-950 p-3 rounded-xl border border-slate-800">
+                                <div>
+                                    <p class="font-bold text-white">WhatsApp Auto-Trigger</p>
+                                    <p class="text-[10px] text-slate-400">Open WhatsApp on new order booking</p>
+                                </div>
+                                <input type="checkbox" id="whatsappToggle" onchange="saveAdminWhatsAppSettings()" class="w-4 h-4 accent-emerald-600 cursor-pointer" checked>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ADMIN CUSTOM PIN -->
+                    <div id="param_admin_customPin" class="bg-slate-900 rounded-2xl border border-slate-800 p-5 space-y-3 shadow-xl">
+                        <h3 class="text-sm font-bold text-white flex items-center gap-2 border-b border-slate-800 pb-2">
+                            <i class="fa-solid fa-key text-red-500"></i> Admin Security & Custom PIN
+                        </h3>
+                        <div class="space-y-2.5 text-xs">
+                            <label class="block text-slate-300 font-semibold">Set Permanent Admin PIN</label>
+                            <div class="flex gap-2">
+                                <input type="password" id="customAdminPinInput" placeholder="Leave empty for dynamic PIN" class="w-2/3 bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white text-xs focus:outline-none">
+                                <button type="button" onclick="saveCustomAdminPin()" class="w-1/3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl shadow transition">Save PIN</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Admin Payment Methods Configuration Card -->
+                    <div id="param_admin_paymentMethods" class="bg-slate-900 rounded-2xl border border-slate-800 p-5 space-y-3 shadow-xl">
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                            <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                                <i class="fa-solid fa-money-check-dollar text-emerald-400"></i> Company Payment Methods
+                            </h3>
+                            <button type="button" onclick="openAdminPaymentModal()" class="bg-red-600 hover:bg-red-700 text-white text-xs font-bold px-3 py-1.5 rounded-lg shadow transition flex items-center gap-1">
+                                <i class="fa-solid fa-pen-to-square"></i> Configure
+                            </button>
+                        </div>
+                        <div id="adminPaymentSummaryPreview" class="grid grid-cols-2 gap-2 text-xs pt-1"></div>
+                    </div>
+
+                    <!-- Customer Orders Table Section -->
+                    <div id="param_admin_customerOrders" class="bg-slate-900 rounded-2xl border border-slate-800 p-5 space-y-4 shadow-xl">
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                            <h3 class="text-sm font-bold text-white">Customer Booking Details</h3>
+                            <p class="text-[10px] text-slate-400">👉 Tap customer for profile & dispatch</p>
+                        </div>
+
+                        <div class="bg-slate-950 p-1 rounded-xl border border-slate-800 grid grid-cols-3 gap-1">
+                            <button type="button" onclick="switchAdminOrderTab('active')" id="adminTab_active" class="py-2 text-xs font-bold rounded-lg bg-red-600 text-white transition flex items-center justify-center gap-1">
+                                Active <span id="cntActive" class="text-[10px] bg-black/40 px-2 py-0.5 rounded-full">0</span>
+                            </button>
+                            <button type="button" onclick="switchAdminOrderTab('delivered')" id="adminTab_delivered" class="py-2 text-xs font-semibold rounded-lg text-slate-400 hover:text-white transition flex items-center justify-center gap-1">
+                                Delivered <span id="cntDelivered" class="text-[10px] bg-slate-800 px-2 py-0.5 rounded-full">0</span>
+                            </button>
+                            <button type="button" onclick="switchAdminOrderTab('cancelled')" id="adminTab_cancelled" class="py-2 text-xs font-semibold rounded-lg text-slate-400 hover:text-white transition flex items-center justify-center gap-1">
+                                Cancelled <span id="cntCancelled" class="text-[10px] bg-slate-800 px-2 py-0.5 rounded-full">0</span>
+                            </button>
+                        </div>
+
+                        <div id="ordersList" class="space-y-2.5 max-h-96 overflow-y-auto pr-1">
+                            <p class="text-xs text-slate-500 text-center py-6">Loading bookings...</p>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- MODALS (Report Customizer, P&L, Admin Payment, Settings Parameters, Signature, Customer Detail, Company Profile) -->
+
+    <!-- BUSINESS REPORT CUSTOMIZER MODAL -->
+    <div id="reportCustomizerModal" class="fixed inset-0 bg-black/85 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-lg p-6 space-y-4 shadow-2xl max-h-[88vh] overflow-y-auto">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                <div>
+                    <h3 class="text-base font-bold text-white"><i class="fa-solid fa-sliders text-red-500 mr-2"></i> Report Builder & Export</h3>
+                    <p class="text-xs text-slate-400">Search customer & select report options</p>
+                </div>
+                <button type="button" onclick="closeReportCustomizerModal()" class="text-slate-400 hover:text-white bg-slate-800 w-8 h-8 rounded-full flex items-center justify-center transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div class="space-y-1">
+                <label class="block text-xs font-semibold text-slate-300">Search Customer Name / Phone Number</label>
+                <div class="relative">
+                    <input type="text" id="reportSearchInput" placeholder="Type customer name or number (leave empty for all)..." class="w-full bg-slate-950 border border-slate-700 rounded-xl py-3 px-3 pl-9 text-xs text-white focus:outline-none focus:border-red-500 transition">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-slate-500 text-xs"></i>
+                </div>
+            </div>
+
+            <div class="space-y-2">
+                <p class="text-xs font-bold text-red-400 uppercase tracking-wider">Report Options & Toggles</p>
+                <div class="grid grid-cols-2 gap-2 text-xs">
+                    <div class="flex items-center justify-between bg-slate-950 p-2.5 rounded-xl border border-slate-800">
+                        <span>Customer</span> <input type="checkbox" id="rep_toggle_customer" checked class="w-4 h-4 accent-red-600">
+                    </div>
+                    <div class="flex items-center justify-between bg-slate-950 p-2.5 rounded-xl border border-slate-800">
+                        <span>Material</span> <input type="checkbox" id="rep_toggle_material" checked class="w-4 h-4 accent-red-600">
+                    </div>
+                    <div class="flex items-center justify-between bg-slate-950 p-2.5 rounded-xl border border-slate-800">
+                        <span>Quantity (Liters)</span> <input type="checkbox" id="rep_toggle_liters" checked class="w-4 h-4 accent-red-600">
+                    </div>
+                    <div class="flex items-center justify-between bg-slate-950 p-2.5 rounded-xl border border-slate-800">
+                        <span>Total Amount</span> <input type="checkbox" id="rep_toggle_totalAmount" checked class="w-4 h-4 accent-red-600">
+                    </div>
+                    <div class="flex items-center justify-between bg-slate-950 p-2.5 rounded-xl border border-slate-800">
+                        <span>Date</span> <input type="checkbox" id="rep_toggle_date" checked class="w-4 h-4 accent-red-600">
+                    </div>
+                    <div class="flex items-center justify-between bg-slate-950 p-2.5 rounded-xl border border-slate-800">
+                        <span>Time</span> <input type="checkbox" id="rep_toggle_time" checked class="w-4 h-4 accent-red-600">
+                    </div>
+                    <div class="flex items-center justify-between bg-slate-950 p-2.5 rounded-xl border border-slate-800">
+                        <span>Contact</span> <input type="checkbox" id="rep_toggle_contact" class="w-4 h-4 accent-red-600">
+                    </div>
+                    <div class="flex items-center justify-between bg-slate-950 p-2.5 rounded-xl border border-slate-800">
+                        <span>D/O Number</span> <input type="checkbox" id="rep_toggle_do" class="w-4 h-4 accent-red-600">
+                    </div>
+                    <div class="flex items-center justify-between bg-slate-950 p-2.5 rounded-xl border border-slate-800">
+                        <span>Invoice Number</span> <input type="checkbox" id="rep_toggle_invoice" class="w-4 h-4 accent-red-600">
+                    </div>
+                    <div class="flex items-center justify-between bg-slate-950 p-2.5 rounded-xl border border-slate-800">
+                        <span>Payment Method</span> <input type="checkbox" id="rep_toggle_payMethod" class="w-4 h-4 accent-red-600">
+                    </div>
+                    <div class="flex items-center justify-between bg-slate-950 p-2.5 rounded-xl border border-slate-800">
+                        <span>Paid Amount</span> <input type="checkbox" id="rep_toggle_paidAmount" class="w-4 h-4 accent-red-600">
+                    </div>
+                    <div class="flex items-center justify-between bg-slate-950 p-2.5 rounded-xl border border-slate-800">
+                        <span>Outstanding</span> <input type="checkbox" id="rep_toggle_outstanding" class="w-4 h-4 accent-red-600">
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-2">
+                <button type="button" onclick="processAndGenerateCustomReport()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs py-3.5 rounded-xl shadow-lg transition active:scale-98 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-circle-check"></i> Done & Generate Report
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- DETAILED P&L STATEMENT MODAL -->
+    <div id="plReportModal" class="fixed inset-0 bg-black/85 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-md p-6 space-y-4 shadow-2xl">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                <h3 class="text-base font-bold text-white"><i class="fa-solid fa-file-invoice-dollar text-emerald-400 mr-2"></i> P&L Statement Breakdown</h3>
+                <button type="button" onclick="closePLReportModal()" class="text-slate-400 hover:text-white bg-slate-800 w-8 h-8 rounded-full flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="space-y-3 text-xs text-slate-300">
+                <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2.5">
+                    <p class="font-bold text-white border-b border-slate-800 pb-1.5 flex justify-between"><span>Total Revenue (Diesel Sales)</span> <span id="modalPlRev" class="text-white">Rs. 0</span></p>
+                    <p class="font-bold text-white border-b border-slate-800 pb-1.5 flex justify-between"><span>Total Logistics Expenses</span> <span id="modalPlExp" class="text-red-400">Rs. 0</span></p>
+                    <p class="font-bold text-white pt-1 flex justify-between text-sm"><span>Net Operating Profit</span> <span id="modalPlNet" class="text-emerald-400">Rs. 0</span></p>
+                </div>
+                <p class="text-[11px] text-slate-400">Calculated in real-time from active diesel orders and expenses logged.</p>
+            </div>
+            <button type="button" onclick="closePLReportModal()" class="w-full bg-slate-800 text-white text-xs font-semibold py-2.5 rounded-xl border border-slate-700">Close</button>
+        </div>
+    </div>
+
+    <!-- ADMIN PAYMENT METHODS MODAL -->
+    <div id="adminPaymentModal" class="fixed inset-0 bg-black/85 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-lg p-6 space-y-4 shadow-2xl max-h-[90vh] overflow-y-auto">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                <h3 class="text-base font-bold text-white"><i class="fa-solid fa-money-check-dollar text-emerald-400 mr-2"></i> Configure Company Payment Accounts</h3>
+                <button type="button" onclick="closeAdminPaymentModal()" class="text-slate-400 hover:text-white bg-slate-800 w-8 h-8 rounded-full flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="space-y-4 text-xs">
+                <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
+                    <div class="flex justify-between items-center"><span class="font-bold text-white">1. Bank Account (HBL / Meezan)</span><select id="pay_bank_status" class="bg-slate-900 border border-slate-700 rounded px-2 py-1 text-xs text-slate-200"><option value="available">Available</option><option value="unavailable">Unavailable</option></select></div>
+                    <input type="text" id="pay_bank_acc" placeholder="Account Number" class="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white">
+                    <input type="text" id="pay_bank_iban" placeholder="IBAN Number" class="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white">
+                </div>
+                <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
+                    <div class="flex justify-between items-center"><span class="font-bold text-white">2. EasyPaisa</span><select id="pay_ep_status" class="bg-slate-900 border border-slate-700 rounded px-2 py-1 text-xs text-slate-200"><option value="available">Available</option><option value="unavailable">Unavailable</option></select></div>
+                    <input type="text" id="pay_ep_acc" placeholder="EasyPaisa Phone" class="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white">
+                </div>
+                <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
+                    <div class="flex justify-between items-center"><span class="font-bold text-white">3. JazzCash</span><select id="pay_jc_status" class="bg-slate-900 border border-slate-700 rounded px-2 py-1 text-xs text-slate-200"><option value="available">Available</option><option value="unavailable">Unavailable</option></select></div>
+                    <input type="text" id="pay_jc_acc" placeholder="JazzCash Phone" class="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white">
+                </div>
+                <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
+                    <div class="flex justify-between items-center"><span class="font-bold text-white">4. Raast ID</span><select id="pay_raast_status" class="bg-slate-900 border border-slate-700 rounded px-2 py-1 text-xs text-slate-200"><option value="available">Available</option><option value="unavailable">Unavailable</option></select></div>
+                    <input type="text" id="pay_raast_acc" placeholder="Raast ID" class="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white">
+                </div>
+            </div>
+            <div class="flex gap-2 pt-2">
+                <button type="button" onclick="closeAdminPaymentModal()" class="w-1/3 bg-slate-800 text-slate-300 text-xs font-semibold py-2.5 rounded-xl">Cancel</button>
+                <button type="button" onclick="saveAdminPaymentSettings()" class="w-2/3 bg-emerald-600 text-white text-xs font-bold py-2.5 rounded-xl shadow">Save Settings</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SETTINGS PARAMETERS MODAL -->
+    <div id="settingsParametersModal" class="fixed inset-0 bg-black/85 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-md p-6 space-y-4 shadow-2xl max-h-[85vh] overflow-y-auto">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                <h3 class="text-base font-bold text-white"><i class="fa-solid fa-sliders text-red-500 mr-2"></i> Settings Parameters</h3>
+                <button type="button" onclick="closeSettingsParametersModal()" class="text-slate-400 hover:text-white bg-slate-800 w-8 h-8 rounded-full flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="bg-slate-950 p-1 rounded-xl border border-slate-800 grid grid-cols-2 gap-1">
+                <button type="button" onclick="switchParamTab('customer')" id="paramTabBtn_customer" class="py-2 text-xs font-bold rounded-lg bg-red-600 text-white">Customer Dashboard</button>
+                <button type="button" onclick="switchParamTab('admin')" id="paramTabBtn_admin" class="py-2 text-xs font-semibold rounded-lg text-slate-400">Admin Dashboard</button>
+            </div>
+            <div id="paramTabContent_customer" class="space-y-2.5 pt-1 text-xs">
+                <div class="flex items-center justify-between bg-slate-950 p-3 rounded-xl border border-slate-800"><span>Header Banner Card</span><input type="checkbox" id="toggle_cust_headerBanner" onchange="updateParameterState()" class="w-4 h-4 accent-red-600" checked></div>
+                <div class="flex items-center justify-between bg-slate-950 p-3 rounded-xl border border-slate-800"><span>FCM Sound Settings</span><input type="checkbox" id="toggle_cust_soundSettings" onchange="updateParameterState()" class="w-4 h-4 accent-red-600" checked></div>
+                <div class="flex items-center justify-between bg-slate-950 p-3 rounded-xl border border-slate-800"><span>Account Ledger Card</span><input type="checkbox" id="toggle_cust_accountLedger" onchange="updateParameterState()" class="w-4 h-4 accent-red-600" checked></div>
+                <div class="flex items-center justify-between bg-slate-950 p-3 rounded-xl border border-slate-800"><span>Quantity & Liters Buttons</span><input type="checkbox" id="toggle_cust_quantitySection" onchange="updateParameterState()" class="w-4 h-4 accent-red-600" checked></div>
+                <div class="flex items-center justify-between bg-slate-950 p-3 rounded-xl border border-slate-800"><span>Delivery Location Input</span><input type="checkbox" id="toggle_cust_locationInput" onchange="updateParameterState()" class="w-4 h-4 accent-red-600" checked></div>
+                <div class="flex items-center justify-between bg-slate-950 p-3 rounded-xl border border-slate-800"><span>Required Delivery Date</span><input type="checkbox" id="toggle_cust_deliveryDate" onchange="updateParameterState()" class="w-4 h-4 accent-red-600" checked></div>
+                <div class="flex items-center justify-between bg-slate-950 p-3 rounded-xl border border-slate-800"><span>Customer Details & Logo</span><input type="checkbox" id="toggle_cust_detailsInputs" onchange="updateParameterState()" class="w-4 h-4 accent-red-600" checked></div>
+                <div class="flex items-center justify-between bg-slate-950 p-3 rounded-xl border border-slate-800"><span>Payment Method Selection</span><input type="checkbox" id="toggle_cust_paymentSelection" onchange="updateParameterState()" class="w-4 h-4 accent-red-600" checked></div>
+                <div class="flex items-center justify-between bg-slate-950 p-3 rounded-xl border border-slate-800"><span>Book Order Button</span><input type="checkbox" id="toggle_cust_bookBtn" onchange="updateParameterState()" class="w-4 h-4 accent-red-600" checked></div>
+                <div class="flex items-center justify-between bg-slate-950 p-3 rounded-xl border border-slate-800"><span>My Bookings List</span><input type="checkbox" id="toggle_cust_myBookings" onchange="updateParameterState()" class="w-4 h-4 accent-red-600" checked></div>
+            </div>
+            <div id="paramTabContent_admin" class="space-y-2.5 pt-1 text-xs hidden">
+                <div class="flex items-center justify-between bg-slate-950 p-3 rounded-xl border border-slate-800"><span>FCM Sound & Notif</span><input type="checkbox" id="toggle_admin_fcmSoundNotif" onchange="updateParameterState()" class="w-4 h-4 accent-red-600" checked></div>
+                <div class="flex items-center justify-between bg-slate-950 p-3 rounded-xl border border-slate-800"><span>WhatsApp Settings</span><input type="checkbox" id="toggle_admin_whatsappSettings" onchange="updateParameterState()" class="w-4 h-4 accent-red-600" checked></div>
+                <div class="flex items-center justify-between bg-slate-950 p-3 rounded-xl border border-slate-800"><span>Custom PIN Section</span><input type="checkbox" id="toggle_admin_customPin" onchange="updateParameterState()" class="w-4 h-4 accent-red-600" checked></div>
+                <div class="flex items-center justify-between bg-slate-950 p-3 rounded-xl border border-slate-800"><span>Automatic P&L Statement</span><input type="checkbox" id="toggle_admin_plStatement" onchange="updateParameterState()" class="w-4 h-4 accent-red-600" checked></div>
+                <div class="flex items-center justify-between bg-slate-950 p-3 rounded-xl border border-slate-800"><span>Payment Methods Manager</span><input type="checkbox" id="toggle_admin_paymentMethods" onchange="updateParameterState()" class="w-4 h-4 accent-red-600" checked></div>
+                <div class="flex items-center justify-between bg-slate-950 p-3 rounded-xl border border-slate-800"><span>Fuel Rate Customizer</span><input type="checkbox" id="toggle_admin_priceCustomizer" onchange="updateParameterState()" class="w-4 h-4 accent-red-600" checked></div>
+                <div class="flex items-center justify-between bg-slate-950 p-3 rounded-xl border border-slate-800"><span>Summary Stats Cards</span><input type="checkbox" id="toggle_admin_summaryStats" onchange="updateParameterState()" class="w-4 h-4 accent-red-600" checked></div>
+                <div class="flex items-center justify-between bg-slate-950 p-3 rounded-xl border border-slate-800"><span>Tanker Expense Tracker</span><input type="checkbox" id="toggle_admin_expenseTracker" onchange="updateParameterState()" class="w-4 h-4 accent-red-600" checked></div>
+                <div class="flex items-center justify-between bg-slate-950 p-3 rounded-xl border border-slate-800"><span>Business Reports & Export</span><input type="checkbox" id="toggle_admin_reportsExport" onchange="updateParameterState()" class="w-4 h-4 accent-red-600" checked></div>
+                <div class="flex items-center justify-between bg-slate-950 p-3 rounded-xl border border-slate-800"><span>Customer Orders Table</span><input type="checkbox" id="toggle_admin_customerOrders" onchange="updateParameterState()" class="w-4 h-4 accent-red-600" checked></div>
+            </div>
+            <button type="button" onclick="closeSettingsParametersModal()" class="w-full bg-red-600 hover:bg-red-700 text-white text-xs font-bold py-3 rounded-xl shadow">Save & Apply Parameters</button>
+        </div>
+    </div>
+
+    <!-- DIGITAL SIGNATURE CANVAS MODAL -->
+    <div id="signatureModal" class="fixed inset-0 bg-black/85 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-md p-6 space-y-4 shadow-2xl">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                <h3 class="text-base font-bold text-white"><i class="fa-solid fa-signature text-red-500 mr-2"></i> Delivery E-Signature Proof</h3>
+                <button type="button" onclick="closeSignatureModal()" class="text-slate-400 hover:text-white bg-slate-800 w-8 h-8 rounded-full flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 text-center">
+                <canvas id="signatureCanvas" class="bg-slate-900 border border-slate-700 rounded-xl w-full h-44 touch-none cursor-crosshair"></canvas>
+                <p class="text-[10px] text-slate-500 mt-1.5">Use finger or mouse to draw signature inside box</p>
+            </div>
+            <div class="flex gap-2">
+                <button type="button" onclick="clearSignatureCanvas()" class="w-1/3 bg-slate-800 text-slate-300 text-xs font-semibold py-2.5 rounded-xl">Clear Pad</button>
+                <button type="button" onclick="saveDeliverySignature()" class="w-2/3 bg-emerald-600 text-white text-xs font-bold py-2.5 rounded-xl shadow">Save & Confirm Delivery</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- VIEW SIGNATURE PROOF MODAL -->
+    <div id="viewSignModal" class="fixed inset-0 bg-black/85 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-sm p-5 space-y-3 text-center shadow-2xl">
+            <h4 class="text-sm font-bold text-white"><i class="fa-solid fa-file-contract text-emerald-400 mr-1.5"></i> Receiver Signature Proof</h4>
+            <div class="bg-white p-3 rounded-xl border border-slate-700 inline-block w-full">
+                <img id="signatureProofImg" src="" class="w-full max-h-48 object-contain mx-auto">
+            </div>
+            <button type="button" onclick="document.getElementById('viewSignModal').classList.add('hidden')" class="w-full bg-slate-800 text-white text-xs font-semibold py-2.5 rounded-xl">Close</button>
+        </div>
+    </div>
+
+    <!-- CUSTOMER DETAIL & PROFILE MODAL -->
+    <div id="customerModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-md p-6 space-y-4 shadow-2xl max-h-[90vh] overflow-y-auto">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="openCompanyProfileModal()">
+                    <div id="modalCustAvatar" class="w-12 h-12 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center overflow-hidden text-lg shadow">👤</div>
+                    <div>
+                        <h3 id="modalCustName" class="text-base font-bold text-white hover:text-red-400 transition">Customer Name</h3>
+                        <p id="modalCustPhone" class="text-xs text-slate-400">0300-0000000</p>
+                    </div>
+                </div>
+                <button type="button" onclick="closeModal()" class="text-slate-400 hover:text-white bg-slate-800 w-8 h-8 rounded-full flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <div id="param_admin_whatsappBtn">
+                <button type="button" onclick="sendDirectWhatsAppToCustomer()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold py-3 rounded-xl shadow flex items-center justify-center gap-2">
+                    <i class="fa-brands fa-whatsapp text-sm"></i> Send Order Update via WhatsApp
+                </button>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2 text-xs">
+                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                    <p class="text-slate-400">Total Bookings</p>
+                    <p id="modalTotalOrders" class="text-sm font-bold text-white">0</p>
+                </div>
+                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                    <p class="text-slate-400">Total Outstanding</p>
+                    <p id="modalTotalOutstanding" class="text-sm font-bold text-red-500">Rs. 0</p>
+                </div>
+            </div>
+
+            <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2.5">
+                <p class="text-xs font-semibold text-slate-300">Material Dispatch Status Controls</p>
+                <div id="adminDispatchControl" class="flex gap-2"></div>
+            </div>
+
+            <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-3 text-xs">
+                <p class="font-semibold text-slate-300">D/O & Invoice Number Management</p>
+                <div class="flex gap-2 items-center">
+                    <input type="text" id="modalDoInput" placeholder="Enter D/O #" class="w-2/3 bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-white">
+                    <button type="button" id="modalSaveDoBtn" onclick="saveAdminDoNumber()" class="w-1/3 bg-red-600 hover:bg-red-700 text-white font-bold py-2.5 rounded-xl">Save D/O</button>
+                </div>
+                <div class="flex gap-2 items-center">
+                    <input type="text" id="modalInvoiceInput" placeholder="Enter Invoice #" class="w-2/3 bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-white">
+                    <button type="button" id="modalSaveInvoiceBtn" onclick="saveAdminInvoiceNumber()" class="w-1/3 bg-red-600 hover:bg-red-700 text-white font-bold py-2.5 rounded-xl">Save Invoice</button>
+                </div>
+            </div>
+
+            <div>
+                <p class="text-xs font-semibold text-slate-300 mb-2">Customer Orders & History</p>
+                <div id="modalPaymentHistory" class="space-y-2.5 max-h-48 overflow-y-auto pr-1"></div>
+            </div>
+
+            <button type="button" onclick="closeModal()" class="w-full bg-slate-800 text-white text-xs font-semibold py-3 rounded-xl">Close</button>
+        </div>
+    </div>
+
+    <!-- COMPANY PROFILE MODAL -->
+    <div id="companyProfileModal" class="fixed inset-0 bg-black/85 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-lg p-6 space-y-4 shadow-2xl relative max-h-[85vh] overflow-y-auto">
+            <button type="button" onclick="closeCompanyProfileModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white bg-slate-800 w-8 h-8 rounded-full flex items-center justify-center"><i class="fa-solid fa-xmark text-sm"></i></button>
+
+            <div class="flex items-center space-x-3 border-b border-slate-800 pb-4 pr-8">
+                <div class="w-12 h-12 bg-gradient-to-br from-red-600 to-red-800 rounded-xl flex items-center justify-center font-bold text-white text-2xl shadow-lg">X</div>
+                <div>
+                    <h2 class="text-lg font-bold text-white">Xperts Trading Karachi</h2>
+                    <p class="text-xs text-red-400 font-medium">Company Profile & Quotation</p>
+                </div>
+            </div>
+
+            <div class="space-y-3 text-xs text-slate-300 leading-relaxed">
+                <div>
+                    <h4 class="font-bold text-white text-sm mb-1 text-red-400">Introduction</h4>
+                    <p>M/S Xperts Trading is continuously providing best services since 10 years with an excellent record for customer satisfaction. We supply high speed diesel all over Pakistan to various industries such as Retails, Banks, Textiles, Health Institutions, Construction sites and Telecommunication sector.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-white text-sm mb-1 text-red-400">Our Vision</h4>
+                    <p>To be the best source that provides creative sustainable solutions essential to industrial evolution.</p>
+                </div>
+                <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-1.5">
+                    <h4 class="font-bold text-white text-xs text-red-400">Contact Details</h4>
+                    <p><i class="fa-solid fa-user text-red-500 mr-1"></i> <b>Contact Person:</b> Muhammad Dawood</p>
+                    <p><i class="fa-solid fa-phone text-red-500 mr-1"></i> <b>Phone:</b> 0344-1122334</p>
+                    <p><i class="fa-solid fa-envelope text-red-500 mr-1"></i> <b>Email:</b> xpertstrading65@gmail.com</p>
+                    <p><i class="fa-solid fa-location-dot text-red-500 mr-1"></i> <b>Address:</b> A-107, Block S, North Nazimabad, Karachi Pakistan</p>
+                </div>
+            </div>
+
+            <button type="button" onclick="closeCompanyProfileModal()" class="w-full bg-slate-800 text-white text-xs font-semibold py-3 rounded-xl">Close</button>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-900 border-t border-slate-800 p-6 text-center space-y-2 mt-8">
+        <div class="flex items-center justify-center space-x-2 text-xs font-bold text-white">
+            <span class="text-red-500 font-black">X</span>
+            <span>Xperts Trading Karachi</span>
+            <span class="text-slate-600">•</span>
+            <span class="text-[10px] text-emerald-400 font-normal">24/7 Active Supply Portal</span>
+        </div>
+        <p class="text-xs text-slate-400">High-Speed Diesel Supply • Industrial Logistics • Fast Tanker Fleet</p>
+        <p class="text-[10px] text-slate-600">© 2026 Xperts Trading. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Script Logic -->
+    <script>
+        function dismissSplashScreen() {
+            const splash = document.getElementById('splashScreen');
+            if (splash && splash.style.opacity !== '0') {
+                splash.style.opacity = '0';
+                setTimeout(() => { if (splash) splash.remove(); }, 700);
+            }
+        }
+        const splashSafetyTimer = setTimeout(dismissSplashScreen, 2500);
+
+        window.addEventListener('load', () => {
+            clearTimeout(splashSafetyTimer);
+            setTimeout(dismissSplashScreen, 800);
+            try {
+                loadParameterStates();
+                loadAdminPaymentSettings();
+                loadAdminWhatsAppSettings();
+                loadCustomAdminPinSetting();
+                loadAdminNotifState();
+                loadFcmNotificationSettings();
+                loadCustomerSoundSettings();
+                onLocationDropdownChange();
+                setTimeout(initKarachiAutocomplete, 800);
+                initSignaturePad();
+                initFCMService();
+            } catch (err) {
+                console.log("Initialization note:", err);
+            }
+        });
+
+        const firebaseConfig = {
+            databaseURL: "https://xperts-trading-78d20-default-rtdb.asia-southeast1.firebasedatabase.app"
+        };
+        let database = null;
+        let messaging = null;
+
+        try {
+            if (typeof firebase !== 'undefined') {
+                firebase.initializeApp(firebaseConfig);
+                database = firebase.database();
+                if (firebase.messaging && firebase.messaging.isSupported()) {
+                    messaging = firebase.messaging();
+                }
+            }
+        } catch(e) { console.log("Firebase local demo mode active."); }
+
+        /* FCM RINGTONE & NOTIFICATION SOUND ALERT LOGIC */
+        let adminCustomAudioBase64 = localStorage.getItem('admin_custom_audio_base64') || null;
+        let customerCustomAudioBase64 = localStorage.getItem('cust_custom_audio_base64') || null;
+
+        function toggleFcmNotificationSection() {
+            const content = document.getElementById('fcmNotificationContent');
+            const label = document.getElementById('fcmToggleLabel');
+            const icon = document.getElementById('fcmToggleIcon');
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                label.innerText = "Hide";
+                icon.className = "fa-solid fa-chevron-up text-[10px]";
+            } else {
+                content.classList.add('hidden');
+                label.innerText = "Configure";
+                icon.className = "fa-solid fa-chevron-down text-[10px]";
+            }
+        }
+
+        function handleAdminCustomAudioUpload(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    adminCustomAudioBase64 = e.target.result;
+                    localStorage.setItem('admin_custom_audio_base64', adminCustomAudioBase64);
+                    showNotificationToast("Custom Sound Loaded!", "Mobile custom ringtone saved for Admin.");
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function handleCustomerCustomAudioUpload(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    customerCustomAudioBase64 = e.target.result;
+                    localStorage.setItem('cust_custom_audio_base64', customerCustomAudioBase64);
+                    showNotificationToast("Custom Sound Loaded!", "Mobile custom ringtone saved for Customer.");
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function loadFcmNotificationSettings() {
+            let saved = localStorage.getItem('fcm_sound_notif_settings');
+            let settings = saved ? JSON.parse(saved) : { sound: true, preset: 'default', adminBooking: true, adminCancel: true, adminReceived: true, adminPayment: true };
+            if (document.getElementById('toggle_master_sound')) document.getElementById('toggle_master_sound').checked = settings.sound;
+            if (document.getElementById('adminPresetSoundSelect')) document.getElementById('adminPresetSoundSelect').value = settings.preset || 'default';
+        }
+
+        function saveFcmNotificationSettings() {
+            let settings = {
+                sound: document.getElementById('toggle_master_sound')?.checked ?? true,
+                preset: document.getElementById('adminPresetSoundSelect')?.value || 'default',
+                adminBooking: document.getElementById('toggle_admin_notif_booking')?.checked ?? true,
+                adminCancel: document.getElementById('toggle_admin_notif_cancel')?.checked ?? true,
+                adminReceived: document.getElementById('toggle_admin_notif_received')?.checked ?? true,
+                adminPayment: document.getElementById('toggle_admin_notif_payment')?.checked ?? true
+            };
+            localStorage.setItem('fcm_sound_notif_settings', JSON.stringify(settings));
+        }
+
+        function loadCustomerSoundSettings() {
+            let saved = localStorage.getItem('cust_sound_settings');
+            let settings = saved ? JSON.parse(saved) : { sound: true, preset: 'default' };
+            if (document.getElementById('cust_sound_toggle')) document.getElementById('cust_sound_toggle').checked = settings.sound;
+            if (document.getElementById('custPresetSoundSelect')) document.getElementById('custPresetSoundSelect').value = settings.preset || 'default';
+        }
+
+        function saveCustomerSoundSettings() {
+            let settings = {
+                sound: document.getElementById('cust_sound_toggle')?.checked ?? true,
+                preset: document.getElementById('custPresetSoundSelect')?.value || 'default'
+            };
+            localStorage.setItem('cust_sound_settings', JSON.stringify(settings));
+        }
+
+        function playSynthesizedPresetSound(presetType) {
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                if (presetType === 'siren') {
+                    let osc = audioCtx.createOscillator(); let gain = audioCtx.createGain();
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(600, audioCtx.currentTime);
+                    osc.frequency.linearRampToValueAtTime(1200, audioCtx.currentTime + 0.3);
+                    osc.frequency.linearRampToValueAtTime(600, audioCtx.currentTime + 0.6);
+                    gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.6);
+                    osc.connect(gain); gain.connect(audioCtx.destination);
+                    osc.start(); osc.stop(audioCtx.currentTime + 0.6);
+                } else if (presetType === 'bell') {
+                    let osc = audioCtx.createOscillator(); let gain = audioCtx.createGain();
+                    osc.type = 'sine'; osc.frequency.setValueAtTime(520, audioCtx.currentTime);
+                    gain.gain.setValueAtTime(0.5, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.2);
+                    osc.connect(gain); gain.connect(audioCtx.destination);
+                    osc.start(); osc.stop(audioCtx.currentTime + 1.2);
+                } else if (presetType === 'beep') {
+                    let osc = audioCtx.createOscillator(); let gain = audioCtx.createGain();
+                    osc.type = 'square'; osc.frequency.setValueAtTime(1000, audioCtx.currentTime);
+                    gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+                    osc.connect(gain); gain.connect(audioCtx.destination);
+                    osc.start(); osc.stop(audioCtx.currentTime + 0.1);
+                } else {
+                    let osc1 = audioCtx.createOscillator(); let gain1 = audioCtx.createGain();
+                    osc1.type = 'sine'; osc1.frequency.setValueAtTime(800, audioCtx.currentTime);
+                    gain1.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                    gain1.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
+                    osc1.connect(gain1); gain1.connect(audioCtx.destination);
+                    osc1.start(); osc1.stop(audioCtx.currentTime + 0.15);
+
+                    setTimeout(() => {
+                        let osc2 = audioCtx.createOscillator(); let gain2 = audioCtx.createGain();
+                        osc2.type = 'sine'; osc2.frequency.setValueAtTime(1200, audioCtx.currentTime);
+                        gain2.gain.setValueAtTime(0.4, audioCtx.currentTime);
+                        gain2.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.25);
+                        osc2.connect(gain2); gain2.connect(audioCtx.destination);
+                        osc2.start(); osc2.stop(audioCtx.currentTime + 0.25);
+                    }, 180);
+                }
+            } catch(e) {}
+        }
+
+        function playNotificationSound(target = 'admin') {
+            if (target === 'admin') {
+                let settings = JSON.parse(localStorage.getItem('fcm_sound_notif_settings')) || { sound: true, preset: 'default' };
+                if (!settings.sound) return;
+                if (adminCustomAudioBase64) {
+                    try {
+                        let audio = new Audio(adminCustomAudioBase64);
+                        audio.play().catch(() => playSynthesizedPresetSound(settings.preset));
+                    } catch(e) { playSynthesizedPresetSound(settings.preset); }
+                } else { playSynthesizedPresetSound(settings.preset); }
+            } else {
+                let settings = JSON.parse(localStorage.getItem('cust_sound_settings')) || { sound: true, preset: 'default' };
+                if (!settings.sound) return;
+                if (customerCustomAudioBase64) {
+                    try {
+                        let audio = new Audio(customerCustomAudioBase64);
+                        audio.play().catch(() => playSynthesizedPresetSound(settings.preset));
+                    } catch(e) { playSynthesizedPresetSound(settings.preset); }
+                } else { playSynthesizedPresetSound(settings.preset); }
+            }
+        }
+
+        function testNotificationSound(target) {
+            playNotificationSound(target);
+            showNotificationToast("Testing Sound...", "Selected ringtone alert is playing.");
+        }
+
+        function loadAdminNotifState() {}
+        function requestAdminFCMToken() {}
+        function initFCMService() {}
+
+        let ratePerLiter = 280;
+        let isAdminLoggedIn = false;
+        let activeSelectedCustomer = "";
+        let activeSelectedOrderId = null;
+        let currentAdminOrderTab = 'active';
+        let activeSigningOrderId = null;
+        let activeCustomerPayTab = 'cod';
+        let karachiAutocomplete;
+
+        let transportExpensesList = [
+            { id: "exp_1", tanker: "Tanker T-8812", type: "Tanker Rent", amount: 15000, timestamp: Date.now() - 86400000 },
+            { id: "exp_2", tanker: "Driver Batta", type: "Driver Salary/Batta", amount: 3000, timestamp: Date.now() - 43200000 }
+        ];
+
+        let defaultPaymentSettings = {
+            bank: { status: "available", acc: "0123-79001234-01", iban: "PK36MEZN000123456789" },
+            easypaisa: { status: "available", acc: "0344-1122334" },
+            jazzcash: { status: "available", acc: "0300-9988776" },
+            raast: { status: "available", acc: "0344-1122334 (Xperts Trading)" }
+        };
+
+        function getAdminPaymentSettings() {
+            let saved = localStorage.getItem('admin_payment_settings');
+            return saved ? JSON.parse(saved) : defaultPaymentSettings;
+        }
+
+        function loadAdminWhatsAppSettings() {
+            let savedNumber = localStorage.getItem('admin_wa_number') || '923001234567';
+            let savedToggle = localStorage.getItem('admin_wa_enabled');
+            if (document.getElementById('adminWhatsAppInput')) document.getElementById('adminWhatsAppInput').value = savedNumber;
+            if (document.getElementById('whatsappToggle')) document.getElementById('whatsappToggle').checked = savedToggle === null ? true : (savedToggle === 'true');
+        }
+
+        function saveAdminWhatsAppSettings() {
+            if (document.getElementById('adminWhatsAppInput') && document.getElementById('whatsappToggle')) {
+                localStorage.setItem('admin_wa_number', document.getElementById('adminWhatsAppInput').value.trim());
+                localStorage.setItem('admin_wa_enabled', document.getElementById('whatsappToggle').checked);
+            }
+        }
+
+        function loadCustomAdminPinSetting() {
+            if (document.getElementById('customAdminPinInput')) document.getElementById('customAdminPinInput').value = localStorage.getItem('admin_custom_pin') || '';
+        }
+
+        function saveCustomAdminPin() {
+            let val = document.getElementById('customAdminPinInput').value.trim();
+            localStorage.setItem('admin_custom_pin', val);
+            alert(val ? "Custom Admin PIN successfully set!" : "Custom PIN removed.");
+        }
+
+        function getDynamicAdminPassword() {
+            const today = new Date();
+            return String(today.getDate() + today.getMonth() + 1 + 10) + "86";
+        }
+
+        function openAdminPaymentModal() {
+            let settings = getAdminPaymentSettings();
+            document.getElementById('pay_bank_status').value = settings.bank.status;
+            document.getElementById('pay_bank_acc').value = settings.bank.acc;
+            document.getElementById('pay_bank_iban').value = settings.bank.iban;
+            document.getElementById('pay_ep_status').value = settings.easypaisa.status;
+            document.getElementById('pay_ep_acc').value = settings.easypaisa.acc;
+            document.getElementById('pay_jc_status').value = settings.jazzcash.status;
+            document.getElementById('pay_jc_acc').value = settings.jazzcash.acc;
+            document.getElementById('pay_raast_status').value = settings.raast.status;
+            document.getElementById('pay_raast_acc').value = settings.raast.acc;
+            document.getElementById('adminPaymentModal').classList.remove('hidden');
+        }
+
+        function closeAdminPaymentModal() { document.getElementById('adminPaymentModal').classList.add('hidden'); }
+
+        function saveAdminPaymentSettings() {
+            let settings = {
+                bank: { status: document.getElementById('pay_bank_status').value, acc: document.getElementById('pay_bank_acc').value.trim(), iban: document.getElementById('pay_bank_iban').value.trim() },
+                easypaisa: { status: document.getElementById('pay_ep_status').value, acc: document.getElementById('pay_ep_acc').value.trim() },
+                jazzcash: { status: document.getElementById('pay_jc_status').value, acc: document.getElementById('pay_jc_acc').value.trim() },
+                raast: { status: document.getElementById('pay_raast_status').value, acc: document.getElementById('pay_raast_acc').value.trim() }
+            };
+            localStorage.setItem('admin_payment_settings', JSON.stringify(settings));
+            if (database) database.ref('adminPaymentSettings').set(settings);
+            closeAdminPaymentModal();
+            loadAdminPaymentSettings();
+            showNotificationToast("Saved", "Payment accounts updated.");
+        }
+
+        function loadAdminPaymentSettings() {
+            let settings = getAdminPaymentSettings();
+            const previewEl = document.getElementById('adminPaymentSummaryPreview');
+            if (previewEl) {
+                previewEl.innerHTML = `
+                    <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800"><p class="font-bold text-white">Bank: <span class="${settings.bank.status==='available'?'text-emerald-400':'text-red-400'}">${settings.bank.status}</span></p><p class="text-[10px] text-slate-400 truncate">${settings.bank.acc || 'Not set'}</p></div>
+                    <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800"><p class="font-bold text-white">EasyPaisa: <span class="${settings.easypaisa.status==='available'?'text-emerald-400':'text-red-400'}">${settings.easypaisa.status}</span></p><p class="text-[10px] text-slate-400 truncate">${settings.easypaisa.acc || 'Not set'}</p></div>
+                    <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800"><p class="font-bold text-white">JazzCash: <span class="${settings.jazzcash.status==='available'?'text-emerald-400':'text-red-400'}">${settings.jazzcash.status}</span></p><p class="text-[10px] text-slate-400 truncate">${settings.jazzcash.acc || 'Not set'}</p></div>
+                    <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800"><p class="font-bold text-white">Raast ID: <span class="${settings.raast.status==='available'?'text-emerald-400':'text-red-400'}">${settings.raast.status}</span></p><p class="text-[10px] text-slate-400 truncate">${settings.raast.acc || 'Not set'}</p></div>
+                `;
+            }
+
+            const custAccountsList = document.getElementById('customerAccountsList');
+            const paymentModeSelect = document.getElementById('paymentMode');
+            if (custAccountsList && paymentModeSelect) {
+                let custHtml = '';
+                let dropdownHtml = '<option>Cash on Delivery (COD)</option>';
+                if (settings.bank.status === 'available') {
+                    dropdownHtml += '<option>Bank Transfer</option>';
+                    custHtml += `<div class="bg-slate-900 p-2.5 rounded-xl border border-slate-800"><p class="font-bold text-white"><i class="fa-solid fa-building-columns text-red-500 mr-1"></i> Bank: ${settings.bank.acc}</p><p class="text-[10px] text-slate-400">IBAN: ${settings.bank.iban || 'N/A'}</p></div>`;
+                }
+                if (settings.easypaisa.status === 'available') {
+                    dropdownHtml += '<option>EasyPaisa</option>';
+                    custHtml += `<div class="bg-slate-900 p-2.5 rounded-xl border border-slate-800"><p class="font-bold text-white"><i class="fa-solid fa-mobile-screen text-emerald-400 mr-1"></i> EasyPaisa: ${settings.easypaisa.acc}</p></div>`;
+                }
+                if (settings.jazzcash.status === 'available') {
+                    dropdownHtml += '<option>JazzCash</option>';
+                    custHtml += `<div class="bg-slate-900 p-2.5 rounded-xl border border-slate-800"><p class="font-bold text-white"><i class="fa-solid fa-mobile-screen text-amber-500 mr-1"></i> JazzCash: ${settings.jazzcash.acc}</p></div>`;
+                }
+                if (settings.raast.status === 'available') {
+                    dropdownHtml += '<option>Raast Transfer</option>';
+                    custHtml += `<div class="bg-slate-900 p-2.5 rounded-xl border border-slate-800"><p class="font-bold text-white"><i class="fa-solid fa-bolt text-blue-400 mr-1"></i> Raast ID: ${settings.raast.acc}</p></div>`;
+                }
+                custAccountsList.innerHTML = custHtml || '<p class="text-slate-500">No payment methods active.</p>';
+                paymentModeSelect.innerHTML = dropdownHtml;
+            }
+        }
+
+        const defaultParameters = {
+            cust_headerBanner: true, cust_soundSettings: true, cust_accountLedger: true, cust_quantitySection: true,
+            cust_locationInput: true, cust_deliveryDate: true, cust_detailsInputs: true,
+            cust_paymentSelection: true, cust_bookBtn: true, cust_myBookings: true,
+            admin_fcmSoundNotif: true, admin_whatsappSettings: true, admin_customPin: true, admin_plStatement: true,
+            admin_paymentMethods: true, admin_priceCustomizer: true, admin_summaryStats: true, 
+            admin_expenseTracker: true, admin_reportsExport: true, admin_customerOrders: true
+        };
+
+        function openSettingsParametersModal() {
+            if (!isAdminLoggedIn) { alert("Unauthorized! Admin only."); return; }
+            let saved = localStorage.getItem('app_parameters');
+            let params = saved ? JSON.parse(saved) : defaultParameters;
+            for (let key in params) {
+                let el = document.getElementById(`toggle_${key}`);
+                if (el) el.checked = params[key];
+            }
+            switchParamTab('customer');
+            document.getElementById('settingsParametersModal').classList.remove('hidden');
+        }
+
+        function closeSettingsParametersModal() { document.getElementById('settingsParametersModal').classList.add('hidden'); }
+
+        function switchParamTab(tabName) {
+            if (tabName === 'customer') {
+                document.getElementById('paramTabContent_customer').classList.remove('hidden');
+                document.getElementById('paramTabContent_admin').classList.add('hidden');
+                document.getElementById('paramTabBtn_customer').className = "py-2 text-xs font-bold rounded-lg bg-red-600 text-white";
+                document.getElementById('paramTabBtn_admin').className = "py-2 text-xs font-semibold rounded-lg text-slate-400";
+            } else {
+                document.getElementById('paramTabContent_customer').classList.add('hidden');
+                document.getElementById('paramTabContent_admin').classList.remove('hidden');
+                document.getElementById('paramTabBtn_customer').className = "py-2 text-xs font-semibold rounded-lg text-slate-400";
+                document.getElementById('paramTabBtn_admin').className = "py-2 text-xs font-bold rounded-lg bg-red-600 text-white";
+            }
+        }
+
+        function updateParameterState() {
+            let params = {};
+            for (let key in defaultParameters) {
+                let el = document.getElementById(`toggle_${key}`);
+                params[key] = el ? el.checked : true;
+            }
+            localStorage.setItem('app_parameters', JSON.stringify(params));
+            applyDynamicParameters(params);
+        }
+
+        function loadParameterStates() {
+            let saved = localStorage.getItem('app_parameters');
+            let params = saved ? JSON.parse(saved) : defaultParameters;
+            applyDynamicParameters(params);
+        }
+
+        function applyDynamicParameters(params) {
+            for (let key in params) {
+                let sectionEl = document.getElementById(`param_${key}`);
+                if (sectionEl) sectionEl.style.display = params[key] ? '' : 'none';
+            }
+        }
+
+        let allOrdersCache = {
+            "demo_1": { customerName: "Al-Karam Weaving Unit", phone: "0300-1112233", material: "High Speed Diesel (HSD)", liters: "1000", location: "SITE Industrial Area, Karachi", deliveryDate: "2026-11-05", paymentMode: "Bank Transfer", totalAmount: 280000, paymentStatus: "Payment Received", receivedAmount: 280000, doNumber: "DO-9012", invoiceNumber: "INV-4411", custImage: "", deliveryStatus: "Material Received Successfully", isDelivered: true, isCancelled: false, timestamp: Date.now() - 86400000 * 2, deliverySignature: "" },
+            "demo_2": { customerName: "Karachi Foods Ltd", phone: "0321-4445566", material: "High Speed Diesel (HSD)", liters: "500", location: "Korangi Industrial Area, Karachi", deliveryDate: "2026-11-06", paymentMode: "JazzCash", totalAmount: 140000, paymentStatus: "Payment Pending", receivedAmount: 0, doNumber: "", invoiceNumber: "", custImage: "", deliveryStatus: "Material On The Way", isDelivered: false, isCancelled: false, timestamp: Date.now() - 86400000 * 1, deliverySignature: "" }
+        };
+
+        function showNotificationToast(title, message, targetRole = 'admin') {
+            const toast = document.getElementById('notificationToast');
+            document.getElementById('toastTitle').innerText = title;
+            document.getElementById('toastMessage').innerText = message;
+            toast.classList.remove('hidden');
+            playNotificationSound(targetRole);
+            if (window.toastTimeout) clearTimeout(window.toastTimeout);
+            window.toastTimeout = setTimeout(() => hideNotificationToast(), 4000);
+        }
+        function hideNotificationToast() { document.getElementById('notificationToast').classList.add('hidden'); }
+
+        function addTransportExpense() {
+            let tanker = document.getElementById('expenseTankerNo').value.trim() || 'General Transport';
+            let type = document.getElementById('expenseType').value;
+            let amt = Number(document.getElementById('expenseAmount').value);
+            if (!amt || amt <= 0) { alert("Enter valid amount."); return; }
+
+            const expData = { id: 'exp_' + Date.now(), tanker, type, amount: amt, timestamp: Date.now() };
+            if (database) database.ref('expenses').push(expData);
+            else transportExpensesList.push(expData);
+
+            document.getElementById('expenseTankerNo').value = '';
+            document.getElementById('expenseAmount').value = '';
+            renderTransportExpenses();
+        }
+
+        function deleteExpense(expId) {
+            if (database) database.ref('expenses/' + expId).remove();
+            else transportExpensesList = transportExpensesList.filter(e => e.id !== expId);
+            renderTransportExpenses();
+        }
+
+        function renderTransportExpenses() {
+            const container = document.getElementById('expenseListContainer');
+            if (!container) return;
+            let totalExp = 0, html = '';
+            transportExpensesList.forEach((exp) => {
+                totalExp += Number(exp.amount || 0);
+                html += `<div class="bg-slate-900 p-2.5 rounded-xl border border-slate-800 flex justify-between items-center text-xs"><div><p class="font-bold text-white">${exp.tanker} <span class="text-amber-400">(${exp.type})</span></p></div><div class="flex items-center gap-2"><span class="font-bold text-red-400">Rs. ${Number(exp.amount).toLocaleString()}</span><button type="button" onclick="deleteExpense('${exp.id}')" class="text-slate-500 hover:text-red-500"><i class="fa-solid fa-trash-can"></i></button></div></div>`;
+            });
+            container.innerHTML = html || '<p class="text-xs text-slate-500 text-center py-2">No expenses recorded yet.</p>';
+            document.getElementById('totalExpenseDisplay').innerText = "Rs. " + totalExp.toLocaleString();
+
+            let totalRev = 0;
+            for (let id in allOrdersCache) {
+                if (allOrdersCache[id] && !allOrdersCache[id].isCancelled) totalRev += Number(allOrdersCache[id].totalAmount || 0);
+            }
+            let netProfit = totalRev - totalExp;
+            let netProfitEl = document.getElementById('netProfitDisplay');
+            netProfitEl.innerText = "Rs. " + netProfit.toLocaleString();
+            netProfitEl.className = netProfit >= 0 ? "text-sm font-bold text-emerald-400 mt-0.5" : "text-sm font-bold text-red-500 mt-0.5";
+
+            document.getElementById('plTotalRevenue').innerText = "Rs. " + totalRev.toLocaleString();
+            document.getElementById('plTotalExpenses').innerText = "Rs. " + totalExp.toLocaleString();
+            let plNetEl = document.getElementById('plNetMargin');
+            plNetEl.innerText = "Rs. " + netProfit.toLocaleString();
+            plNetEl.className = netProfit >= 0 ? "text-sm font-black text-emerald-400 mt-1" : "text-sm font-black text-red-500 mt-1";
+
+            document.getElementById('modalPlRev').innerText = "Rs. " + totalRev.toLocaleString();
+            document.getElementById('modalPlExp').innerText = "Rs. " + totalExp.toLocaleString();
+            let modalNetEl = document.getElementById('modalPlNet');
+            modalNetEl.innerText = "Rs. " + netProfit.toLocaleString();
+            modalNetEl.className = netProfit >= 0 ? "text-emerald-400" : "text-red-500";
+        }
+
+        function openPLReportModal() { document.getElementById('plReportModal').classList.remove('hidden'); }
+        function closePLReportModal() { document.getElementById('plReportModal').classList.add('hidden'); }
+
+        let signCanvas, signCtx, isDrawing = false;
+        function initSignaturePad() {
+            signCanvas = document.getElementById('signatureCanvas');
+            if (!signCanvas) return;
+            signCtx = signCanvas.getContext('2d');
+            signCanvas.width = signCanvas.offsetWidth || 340;
+            signCanvas.height = signCanvas.offsetHeight || 176;
+            signCtx.strokeStyle = '#38bdf8'; signCtx.lineWidth = 2.5; signCtx.lineCap = 'round';
+
+            const getPos = (e) => {
+                const rect = signCanvas.getBoundingClientRect();
+                return { x: (e.touches ? e.touches[0].clientX : e.clientX) - rect.left, y: (e.touches ? e.touches[0].clientY : e.clientY) - rect.top };
+            };
+            signCanvas.addEventListener('mousedown', (e) => { isDrawing = true; signCtx.beginPath(); let p = getPos(e); signCtx.moveTo(p.x, p.y); });
+            signCanvas.addEventListener('mousemove', (e) => { if (!isDrawing) return; let p = getPos(e); signCtx.lineTo(p.x, p.y); signCtx.stroke(); });
+            signCanvas.addEventListener('mouseup', () => isDrawing = false);
+            signCanvas.addEventListener('mouseleave', () => isDrawing = false);
+            signCanvas.addEventListener('touchstart', (e) => { isDrawing = true; signCtx.beginPath(); let p = getPos(e); signCtx.moveTo(p.x, p.y); }, {passive: true});
+            signCanvas.addEventListener('touchmove', (e) => { if (!isDrawing) return; let p = getPos(e); signCtx.lineTo(p.x, p.y); signCtx.stroke(); }, {passive: true});
+            signCanvas.addEventListener('touchend', () => isDrawing = false);
+        }
+
+        function openSignatureModal(orderId) { activeSigningOrderId = orderId; clearSignatureModalPad(); document.getElementById('signatureModal').classList.remove('hidden'); }
+        function closeSignatureModal() { document.getElementById('signatureModal').classList.add('hidden'); activeSigningOrderId = null; }
+        function clearSignatureModalPad() { if (signCtx && signCanvas) signCtx.clearRect(0, 0, signCanvas.width, signCanvas.height); }
+
+        function saveDeliverySignature() {
+            if (!activeSigningOrderId) return;
+            const dataUrl = signCanvas.toDataURL('image/png');
+            if (database) database.ref('orders/' + activeSigningOrderId).update({ isDelivered: true, deliveryStatus: 'Material Received Successfully', deliverySignature: dataUrl });
+            else { allOrdersCache[activeSigningOrderId].isDelivered = true; allOrdersCache[activeSigningOrderId].deliveryStatus = 'Material Received Successfully'; allOrdersCache[activeSigningOrderId].deliverySignature = dataUrl; }
+            closeSignatureModal();
+            showNotificationToast("Signature Recorded!", "Delivery confirmed with signature proof.", 'admin');
+            refreshAllViews();
+        }
+
+        function viewSignatureProof(orderId) {
+            let order = allOrdersCache[orderId];
+            if (order && order.deliverySignature) {
+                document.getElementById('signatureProofImg').src = order.deliverySignature;
+                document.getElementById('viewSignModal').classList.remove('hidden');
+            } else { alert("Signature not available."); }
+        }
+
+        function switchCustomerPayTab(tabName) {
+            activeCustomerPayTab = tabName;
+            ['cod', 'cheque', 'loan', 'credit'].forEach(t => {
+                document.getElementById(`custPayTab_${t}`).classList.add('hidden');
+                document.getElementById(`custTabBtn_${t}`).className = "py-2 text-xs font-semibold rounded-lg text-slate-400";
+            });
+            document.getElementById(`custPayTab_${tabName}`).classList.remove('hidden');
+            document.getElementById(`custTabBtn_${tabName}`).className = "py-2 text-xs font-bold rounded-lg bg-red-600 text-white";
+        }
+
+        function switchAdminOrderTab(tabName) {
+            currentAdminOrderTab = tabName;
+            ['active', 'delivered', 'cancelled'].forEach(t => {
+                document.getElementById(`adminTab_${t}`).className = "py-2 text-xs font-semibold rounded-lg text-slate-400 flex items-center justify-center gap-1";
+            });
+            document.getElementById(`adminTab_${tabName}`).className = "py-2 text-xs font-bold rounded-lg bg-red-600 text-white flex items-center justify-center gap-1";
+            renderAdminOrdersList(allOrdersCache);
+        }
+
+        function sendDirectWhatsAppToCustomer() {
+            if (!activeSelectedCustomer) return;
+            let targetOrder = null; let targetPhone = "923000000000";
+            for (let id in allOrdersCache) {
+                let order = allOrdersCache[id];
+                if (order.customerName && order.customerName.toLowerCase() === activeSelectedCustomer.toLowerCase()) {
+                    targetOrder = order;
+                    if (order.phone && order.phone !== 'Not Provided') {
+                        targetPhone = order.phone.replace(/[^0-9]/g, '');
+                        if (targetPhone.startsWith('0')) targetPhone = '92' + targetPhone.substring(1);
+                    }
+                    break;
+                }
+            }
+            if (!targetOrder) { alert("Customer not found."); return; }
+            let msg = `*🛢️ XPERTS TRADING - ORDER UPDATE* 🛢️\n\nDear *${targetOrder.customerName}*,\nQuantity: ${targetOrder.liters} Liters\nStatus: *${targetOrder.deliveryStatus}*\nTotal: Rs. ${Number(targetOrder.totalAmount).toLocaleString()}`;
+            window.open(`https://wa.me/${targetPhone}?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
+        function initKarachiAutocomplete() {
+            const input = document.getElementById('customLocationInput');
+            if (!input || !window.google || !google.maps || !google.maps.places) return;
+            try {
+                const karachiBounds = new google.maps.LatLngBounds(new google.maps.LatLng(24.75, 66.85), new google.maps.LatLng(25.15, 67.35));
+                karachiAutocomplete = new google.maps.places.Autocomplete(input, { bounds: karachiBounds, strictBounds: false, componentRestrictions: { country: "pk" } });
+                karachiAutocomplete.addListener("place_changed", () => {
+                    const place = karachiAutocomplete.getPlace();
+                    if (place.formatted_address) input.value = place.formatted_address;
+                });
+            } catch(e) {}
+        }
+
+        function onLocationDropdownChange() {
+            const sel = document.getElementById('locationSelect').value;
+            const input = document.getElementById('customLocationInput');
+            if (!input) return;
+            if (sel !== "Other") input.value = sel + ", Karachi";
+            else { input.value = ""; input.focus(); }
+        }
+
+        function fetchGPSLocation() {
+            if (navigator.geolocation) {
+                showNotificationToast("Locating...", "Capturing GPS location...", 'customer');
+                navigator.geolocation.getCurrentPosition(
+                    (pos) => {
+                        let lat = pos.coords.latitude, lng = pos.coords.longitude;
+                        if (window.google && google.maps.Geocoder) {
+                            new google.maps.Geocoder().geocode({ location: { lat, lng } }, (res, status) => {
+                                if (status === "OK" && res[0]) document.getElementById('customLocationInput').value = res[0].formatted_address;
+                                else document.getElementById('customLocationInput').value = `GPS Coords: ${lat.toFixed(4)}, ${lng.toFixed(4)} (Karachi)`;
+                                showNotificationToast("Location Fetched!", "Exact location captured.", 'customer');
+                            });
+                        }
+                    },
+                    () => alert("GPS access denied."),
+                    { enableHighAccuracy: true, timeout: 10000 }
+                );
+            }
+        }
+
+        if (database) {
+            database.ref('fuelRate').on('value', (s) => { if (s.val()) { ratePerLiter = Number(s.val()); updateRateUI(); } });
+            database.ref('adminPaymentSettings').on('value', (s) => { if (s.val()) { localStorage.setItem('admin_payment_settings', JSON.stringify(s.val())); loadAdminPaymentSettings(); } });
+            database.ref('expenses').on('value', (s) => {
+                if (s.val()) { let arr = []; for(let k in s.val()) arr.push({id: k, ...s.val()[k]}); transportExpensesList = arr; }
+                renderTransportExpenses();
+            });
+            database.ref('orders').on('value', (s) => { if (s.val()) { allOrdersCache = s.val(); refreshAllViews(); } });
+        } else { refreshAllViews(); }
+
+        function updateRateUI() {
+            document.getElementById('displayRate').innerHTML = `Rs. ${ratePerLiter}<span class="text-xs font-normal text-slate-400">/L</span>`;
+            document.getElementById('adminCurrentRateDisplay').innerText = `Rs. ${ratePerLiter} / Liter`;
+            calculateTotal();
+        }
+
+        function updateFuelRate() {
+            let newRate = prompt("Enter new Diesel Rate per Liter (Rs):", ratePerLiter);
+            if (newRate && !isNaN(newRate) && newRate > 0) {
+                ratePerLiter = Number(newRate);
+                if (database) database.ref('fuelRate').set(ratePerLiter);
+                updateRateUI();
+                alert("Fuel rate updated!");
+            }
+        }
+
+        function setLiters(val) { document.getElementById('literInput').value = val; calculateTotal(); }
+        function calculateTotal() {
+            let liters = document.getElementById('literInput').value || 0;
+            document.getElementById('totalPrice').innerText = 'Rs. ' + (liters * ratePerLiter).toLocaleString();
+        }
+
+        function openAdminLogin() {
+            let pass = prompt("Enter Admin Password / PIN:");
+            if (pass === null) return;
+            let savedPin = localStorage.getItem('admin_custom_pin') || '';
+            if ((savedPin && pass === savedPin) || pass === getDynamicAdminPassword()) {
+                isAdminLoggedIn = true;
+                document.getElementById('customerView').classList.add('hidden');
+                document.getElementById('supplierView').classList.remove('hidden');
+                document.getElementById('adminNavBtn').classList.add('hidden');
+                renderAdminOrdersList(allOrdersCache);
+                renderTransportExpenses();
+            } else { alert("Incorrect password or PIN!"); }
+        }
+
+        function logoutAdmin() {
+            isAdminLoggedIn = false;
+            document.getElementById('supplierView').classList.add('hidden');
+            document.getElementById('customerView').classList.remove('hidden');
+            document.getElementById('adminNavBtn').classList.remove('hidden');
+        }
+
+        function onCustomerNameInput() {
+            checkCustomerLedger();
+            renderCustomerMyOrders();
+        }
+
+        function placeOrder() {
+            const name = document.getElementById('custName').value.trim();
+            const phone = document.getElementById('custPhone').value.trim();
+            const liters = document.getElementById('literInput').value;
+            const loc = document.getElementById('customLocationInput').value.trim();
+            const deliveryDate = document.getElementById('deliveryDateInput').value;
+            const imageInput = document.getElementById('custImage');
+
+            let paymentModeDesc = document.getElementById('paymentMode').value;
+            if (activeCustomerPayTab === 'cheque') paymentModeDesc = `Cheque (Rs. ${document.getElementById('custChequeAmount').value || 0})`;
+            else if (activeCustomerPayTab === 'loan') paymentModeDesc = `Installment (Rs. ${document.getElementById('custLoanAmount').value || 0})`;
+            else if (activeCustomerPayTab === 'credit') paymentModeDesc = `Credit (Rs. ${document.getElementById('custCreditAmount').value || 0})`;
+
+            if (!name) { alert('Please enter company name.'); return; }
+            if (!loc) { alert('Please enter delivery location.'); return; }
+
+            let existingImage = "";
+            for (let id in allOrdersCache) {
+                if (allOrdersCache[id].customerName && allOrdersCache[id].customerName.toLowerCase() === name.toLowerCase() && allOrdersCache[id].custImage) {
+                    existingImage = allOrdersCache[id].custImage; break;
+                }
+            }
+
+            if (imageInput.files && imageInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = (e) => saveOrderToDB(name, phone, liters, loc, deliveryDate, paymentModeDesc, e.target.result);
+                reader.readAsDataURL(imageInput.files[0]);
+            } else { saveOrderToDB(name, phone, liters, loc, deliveryDate, paymentModeDesc, existingImage); }
+        }
+
+        function saveOrderToDB(name, phone, liters, loc, deliveryDate, paymentModeDesc, base64Image) {
+            const totalBill = liters * ratePerLiter;
+            const orderData = {
+                customerName: name, phone: phone || 'Not Provided', material: 'High Speed Diesel (HSD)', liters, location: loc,
+                deliveryDate: deliveryDate || 'Not Specified', paymentMode: paymentModeDesc,
+                totalAmount: totalBill, paymentStatus: 'Payment Pending', receivedAmount: 0,
+                doNumber: '', invoiceNumber: '', custImage: base64Image, deliveryStatus: 'Booking Successful',
+                isDelivered: false, isCancelled: false, deliverySignature: '', timestamp: Date.now()
+            };
+            if (database) database.ref('orders').push(orderData);
+            else allOrdersCache['order_' + Date.now()] = orderData;
+
+            if (localStorage.getItem('admin_wa_enabled') !== 'false') {
+                const adminWANumber = localStorage.getItem('admin_wa_number') || '923001234567';
+                const messageText = `🚨 *NEW DIESEL ORDER* 🚨\nCustomer: ${name}\nLiters: ${Number(liters).toLocaleString()}\nLocation: ${loc}\nTotal: Rs. ${Number(totalBill).toLocaleString()}`;
+                window.open(`https://wa.me/${adminWANumber}?text=${encodeURIComponent(messageText)}`, '_blank');
+            }
+
+            showNotificationToast("Booking Successful!", "Order placed successfully.", 'customer');
+            document.getElementById('literInput').value = '500';
+            calculateTotal();
+            refreshAllViews();
+        }
+
+        function cancelOrderByCustomer(orderId) {
+            if (database) database.ref('orders/' + orderId).update({ isCancelled: true, deliveryStatus: 'Order Cancelled' });
+            else { allOrdersCache[orderId].isCancelled = true; allOrdersCache[orderId].deliveryStatus = 'Order Cancelled'; }
+            showNotificationToast("Cancelled", "Order cancelled.", 'customer');
+            refreshAllViews();
+        }
+
+        function adminSetOnTheWay(orderId) {
+            if (database) database.ref('orders/' + orderId).update({ deliveryStatus: 'Material On The Way' });
+            else allOrdersCache[orderId].deliveryStatus = 'Material On The Way';
+            showNotificationToast("Status Updated", "Material On The Way 🚚", 'admin');
+            refreshAllViews();
+        }
+
+        function adminSetDelivered(orderId) {
+            if (database) database.ref('orders/' + orderId).update({ deliveryStatus: 'Delivered Successfully', isDelivered: true });
+            else { allOrdersCache[orderId].deliveryStatus = 'Delivered Successfully'; allOrdersCache[orderId].isDelivered = true; }
+            showNotificationToast("Delivery Successful", "Material Delivered Successfully ✅", 'admin');
+            refreshAllViews();
+        }
+
+        function saveAdminDoNumber() {
+            if (!activeSelectedOrderId) return;
+            let doNum = document.getElementById('modalDoInput').value.trim();
+            if (!doNum) { alert("Enter D/O number."); return; }
+            if (database) database.ref('orders/' + activeSelectedOrderId).update({ doNumber: doNum });
+            else allOrdersCache[activeSelectedOrderId].doNumber = doNum;
+            showNotificationToast("Saved", "D/O Number Saved!", 'admin');
+            refreshAllViews();
+        }
+
+        function saveAdminInvoiceNumber() {
+            if (!activeSelectedOrderId) return;
+            let invNum = document.getElementById('modalInvoiceInput').value.trim();
+            if (!invNum) { alert("Enter Invoice number."); return; }
+            if (database) database.ref('orders/' + activeSelectedOrderId).update({ invoiceNumber: invNum });
+            else allOrdersCache[activeSelectedOrderId].invoiceNumber = invNum;
+            showNotificationToast("Saved", "Invoice Number Saved!", 'admin');
+            refreshAllViews();
+        }
+
+        function checkCustomerLedger() {
+            const inputName = document.getElementById('custName').value.trim().toLowerCase();
+            const outEl = document.getElementById('custOutstanding');
+            const statusEl = document.getElementById('custLastStatus');
+            if (!inputName || !outEl || !statusEl) return;
+
+            let totalOutstanding = 0, lastPaid = 0, hasUnpaid = false;
+            for (let id in allOrdersCache) {
+                let order = allOrdersCache[id];
+                if (order.customerName && order.customerName.toLowerCase() === inputName && !order.isCancelled) {
+                    let due = Number(order.totalAmount) - Number(order.receivedAmount || 0);
+                    if (due > 0) { totalOutstanding += due; hasUnpaid = true; }
+                    if (order.paymentStatus === "Payment Received") lastPaid = Number(order.totalAmount);
+                }
+            }
+            outEl.innerText = "Rs. " + totalOutstanding.toLocaleString();
+            if (hasUnpaid && totalOutstanding > 0) { statusEl.innerText = "Pending Dues"; statusEl.className = "text-xs font-bold text-red-400 mt-1"; }
+            else { statusEl.innerText = "No Dues / Paid"; statusEl.className = "text-xs font-bold text-emerald-400 mt-1"; }
+        }
+
+        function renderCustomerMyOrders() {
+            const container = document.getElementById('customerMyOrdersList');
+            if (!container) return;
+            const inputName = document.getElementById('custName').value.trim().toLowerCase();
+            if (!inputName) { container.innerHTML = '<p class="text-xs text-slate-500 text-center py-4">Enter your company name above to view your bookings.</p>'; return; }
+
+            container.innerHTML = '';
+            let count = 0;
+            for (let id in allOrdersCache) {
+                let order = allOrdersCache[id];
+                if (order.customerName && order.customerName.toLowerCase() === inputName) {
+                    count++;
+                    let signBtn = order.deliverySignature ? `<button type="button" onclick="viewSignatureProof('${id}')" class="text-[10px] bg-slate-800 text-emerald-400 px-2 py-1 rounded font-semibold"><i class="fa-solid fa-signature"></i> Sign</button>` : '';
+                    let actionBtn = order.isCancelled ? `<span class="text-[10px] text-red-400 font-bold">Cancelled</span>` :
+                        order.isDelivered ? `<div class="flex items-center gap-1.5"><span class="text-[10px] text-emerald-400 font-bold">Received ✓</span> ${signBtn}</div>` :
+                        `<div class="flex gap-1"><button type="button" onclick="openSignatureModal('${id}')" class="text-[10px] bg-emerald-600 text-white px-2 py-1 rounded font-semibold"><i class="fa-solid fa-signature"></i> Sign</button><button type="button" onclick="cancelOrderByCustomer('${id}')" class="text-[10px] bg-red-600 text-white px-2 py-1 rounded">Cancel</button></div>`;
+
+                    const card = document.createElement('div');
+                    card.className = 'bg-slate-950 p-3.5 rounded-xl border border-slate-800 space-y-2 text-xs';
+                    card.innerHTML = `
+                        <div class="flex items-center justify-between"><span class="font-bold text-white"><i class="fa-solid fa-gas-pump text-red-500 mr-1"></i> ${order.liters} Liters</span><span class="text-[10px] px-2 py-0.5 rounded-full text-blue-400 border border-blue-500/30">${order.deliveryStatus}</span></div>
+                        <div class="text-slate-400 flex justify-between border-t border-slate-800 pt-1.5"><span>Bill: <b class="text-red-400">Rs. ${Number(order.totalAmount).toLocaleString()}</b></span><span>${order.paymentMode}</span></div>
+                        <div class="flex items-center justify-between pt-1 border-t border-slate-800 text-[10px] text-slate-500"><span>${new Date(order.timestamp).toLocaleDateString()}</span><div class="flex gap-1.5">${actionBtn}</div></div>
+                    `;
+                    container.prepend(card);
+                }
+            }
+            if (count === 0) container.innerHTML = '<p class="text-xs text-slate-500 text-center py-4">No orders found.</p>';
+        }
+
+        function renderAdminOrdersList(data) {
+            const ordersList = document.getElementById('ordersList');
+            if (!ordersList) return;
+            ordersList.innerHTML = '';
+            let activeCnt = 0, deliveredCnt = 0, cancelledCnt = 0, displayCount = 0;
+            if (!data) { ordersList.innerHTML = '<p class="text-xs text-slate-500 text-center py-4">No bookings yet.</p>'; return; }
+
+            for (let id in data) {
+                let order = data[id];
+                if (!order || !order.customerName) continue;
+                if (order.isCancelled) cancelledCnt++;
+                else if (order.isDelivered) deliveredCnt++;
+                else activeCnt++;
+
+                if (currentAdminOrderTab === 'active' && (order.isCancelled || order.isDelivered)) continue;
+                if (currentAdminOrderTab === 'delivered' && !order.isDelivered) continue;
+                if (currentAdminOrderTab === 'cancelled' && !order.isCancelled) continue;
+
+                displayCount++;
+                let imgHtml = order.custImage ? `<div class="w-10 h-10 rounded-full overflow-hidden flex-shrink-0"><img src="${order.custImage}" class="w-full h-full object-cover"></div>` : `<div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-xs">👤</div>`;
+                
+                const orderCard = document.createElement('div');
+                orderCard.className = 'swipeable-card bg-slate-950 p-3.5 rounded-xl border border-slate-800 flex items-center justify-between cursor-pointer hover:border-red-500/50 transition shadow';
+                orderCard.onclick = () => openCustomerDetails(order.customerName);
+                
+                orderCard.innerHTML = `
+                    <div class="flex items-center space-x-3">
+                        ${imgHtml}
+                        <div>
+                            <p class="text-xs font-bold text-white">${order.customerName}</p>
+                            <p class="text-[10px] text-amber-400"><i class="fa-solid fa-oil-can mr-1"></i>${order.material || 'Diesel'} (${order.liters} L)</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-xs font-black text-red-500">Rs. ${Number(order.totalAmount).toLocaleString()}</p>
+                        <p class="text-[10px] text-slate-400">${order.deliveryStatus}</p>
+                    </div>
+                `;
+                ordersList.prepend(orderCard);
+            }
+            document.getElementById('totalOrdersCount').innerText = activeCnt;
+            document.getElementById('cntActive').innerText = activeCnt;
+            document.getElementById('cntDelivered').innerText = deliveredCnt;
+            document.getElementById('cntCancelled').innerText = cancelledCnt;
+            if (displayCount === 0) ordersList.innerHTML = '<p class="text-xs text-slate-500 text-center py-4">No orders in this category.</p>';
+        }
+
+        function openReportCustomizerModal() { document.getElementById('reportCustomizerModal').classList.remove('hidden'); }
+        function closeReportCustomizerModal() { document.getElementById('reportCustomizerModal').classList.add('hidden'); }
+
+        function processAndGenerateCustomReport() {
+            const query = document.getElementById('reportSearchInput').value.trim().toLowerCase();
+            const incCust = document.getElementById('rep_toggle_customer')?.checked;
+            const incMat = document.getElementById('rep_toggle_material')?.checked;
+            const incLiters = document.getElementById('rep_toggle_liters')?.checked;
+            const incTotalAmount = document.getElementById('rep_toggle_totalAmount')?.checked;
+            const incDate = document.getElementById('rep_toggle_date')?.checked;
+            const incTime = document.getElementById('rep_toggle_time')?.checked;
+            const incContact = document.getElementById('rep_toggle_contact')?.checked;
+            const incDO = document.getElementById('rep_toggle_do')?.checked;
+            const incInvoice = document.getElementById('rep_toggle_invoice')?.checked;
+            const incPayMethod = document.getElementById('rep_toggle_payMethod')?.checked;
+            const incPaidAmount = document.getElementById('rep_toggle_paidAmount')?.checked;
+            const incOutstanding = document.getElementById('rep_toggle_outstanding')?.checked;
+
+            let reportRows = [];
+            for (let id in allOrdersCache) {
+                let order = allOrdersCache[id];
+                if (!order || !order.customerName) continue;
+                if (query === '' || order.customerName.toLowerCase().includes(query) || (order.phone || '').includes(query)) {
+                    let orderDate = new Date(order.timestamp).toLocaleDateString();
+                    let orderTime = new Date(order.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                    let paid = Number(order.receivedAmount || 0);
+                    let total = Number(order.totalAmount || 0);
+
+                    reportRows.push({
+                        customer: order.customerName, material: order.material || 'HSD', liters: order.liters + ' L',
+                        totalAmount: 'Rs. ' + total.toLocaleString(), date: orderDate, time: orderTime,
+                        contact: order.phone || 'N/A', doNum: order.doNumber || 'Pending', invNum: order.invoiceNumber || 'Pending',
+                        payMethod: order.paymentMode || 'COD', paidAmount: 'Rs. ' + paid.toLocaleString()
+                    });
+                }
+            }
+
+            if (reportRows.length === 0) {
+                document.getElementById('reportContent').innerHTML = '<p class="text-xs text-slate-400 text-center py-3">No matching records found.</p>';
+            } else {
+                let tableHtml = `<table class="w-full text-left text-[11px] border-collapse min-w-[500px]">
+                    <thead><tr class="bg-slate-900 text-red-400 border-b border-slate-800">
+                        ${incCust ? '<th class="p-2">Customer</th>' : ''}
+                        ${incMat ? '<th class="p-2">Material</th>' : ''}
+                        ${incLiters ? '<th class="p-2">Qty</th>' : ''}
+                        ${incTotalAmount ? '<th class="p-2">Amount</th>' : ''}
+                        ${incDate ? '<th class="p-2">Date</th>' : ''}
+                        ${incTime ? '<th class="p-2">Time</th>' : ''}
+                        ${incDO ? '<th class="p-2">D/O #</th>' : ''}
+                        ${incInvoice ? '<th class="p-2">Invoice #</th>' : ''}
+                    </tr></thead><tbody class="divide-y divide-slate-800/60">`;
+
+                reportRows.forEach(row => {
+                    tableHtml += `<tr class="hover:bg-slate-900/50 text-slate-200">
+                        ${incCust ? `<td class="p-2 font-bold text-white">${row.customer}</td>` : ''}
+                        ${incMat ? `<td class="p-2 text-amber-400">${row.material}</td>` : ''}
+                        ${incLiters ? `<td class="p-2">${row.liters}</td>` : ''}
+                        ${incTotalAmount ? `<td class="p-2 text-red-400 font-bold">${row.totalAmount}</td>` : ''}
+                        ${incDate ? `<td class="p-2">${row.date}</td>` : ''}
+                        ${incTime ? `<td class="p-2">${row.time}</td>` : ''}
+                        ${incDO ? `<td class="p-2">${row.doNum}</td>` : ''}
+                        ${incInvoice ? `<td class="p-2">${row.invNum}</td>` : ''}
+                    </tr>`;
+                });
+                tableHtml += `</tbody></table>`;
+                document.getElementById('reportContent').innerHTML = tableHtml;
+            }
+
+            closeReportCustomizerModal();
+            document.getElementById('reportOutputContainer').classList.remove('hidden');
+            showNotificationToast("Report Ready!", "Business report generated successfully.", 'admin');
+        }
+
+        function closeReportOutput() { document.getElementById('reportOutputContainer').classList.add('hidden'); }
+
+        function triggerMobileDownload(filename, content, mimeType) {
+            const blob = new Blob([content], { type: mimeType });
+            const blobUrl = URL.createObjectURL(blob);
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.href = blobUrl; downloadAnchor.download = filename;
+            document.body.appendChild(downloadAnchor); downloadAnchor.click();
+            setTimeout(() => { document.body.removeChild(downloadAnchor); URL.revokeObjectURL(blobUrl); }, 1000);
+        }
+
+        function exportReportPDF() {
+            let docText = "====================================================================================\n";
+            docText += "                       XPERTS TRADING BUSINESS REPORT                               \n";
+            docText += "====================================================================================\n\n";
+            const rows = document.querySelectorAll('#reportContent tr');
+            rows.forEach(row => {
+                let text = Array.from(row.querySelectorAll('th, td')).map(c => c.innerText.trim()).join(" | ");
+                docText += text + "\n";
+            });
+            triggerMobileDownload(`XpertsTrading_Report_${Date.now()}.txt`, docText, "text/plain;charset=utf-8");
+        }
+
+        function exportReportCSV() {
+            let csvText = "";
+            const rows = document.querySelectorAll('#reportContent tr');
+            rows.forEach(row => {
+                let cols = Array.from(row.querySelectorAll('th, td')).map(c => `"${c.innerText.trim().replace(/"/g, '""')}"`);
+                csvText += cols.join(",") + "\n";
+            });
+            triggerMobileDownload(`XpertsTrading_Report_${Date.now()}.csv`, csvText, "text/csv;charset=utf-8");
+        }
+
+        function openCustomerDetails(customerName) {
+            activeSelectedCustomer = customerName;
+            document.getElementById('modalCustName').innerText = customerName;
+            let targetOrder = null;
+            for (let id in allOrdersCache) {
+                if (allOrdersCache[id].customerName && allOrdersCache[id].customerName.toLowerCase() === customerName.toLowerCase()) {
+                    activeSelectedOrderId = id; targetOrder = allOrdersCache[id]; break;
+                }
+            }
+            if (targetOrder) {
+                document.getElementById('modalCustPhone').innerText = targetOrder.phone;
+                document.getElementById('modalDoInput').value = targetOrder.doNumber || '';
+                document.getElementById('modalInvoiceInput').value = targetOrder.invoiceNumber || '';
+                document.getElementById('adminDispatchControl').innerHTML = `
+                    <button type="button" onclick="adminSetOnTheWay('${activeSelectedOrderId}')" class="w-1/2 bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold py-2 rounded-xl">🚚 On The Way</button>
+                    <button type="button" onclick="adminSetDelivered('${activeSelectedOrderId}')" class="w-1/2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold py-2 rounded-xl">✅ Delivered</button>
+                `;
+            }
+            document.getElementById('customerModal').classList.remove('hidden');
+        }
+
+        function closeModal() { document.getElementById('customerModal').classList.add('hidden'); }
+        function openCompanyProfileModal() { document.getElementById('companyProfileModal').classList.remove('hidden'); }
+        function closeCompanyProfileModal() { document.getElementById('companyProfileModal').classList.add('hidden'); }
+        function refreshAllViews() { renderCustomerMyOrders(); renderAdminOrdersList(allOrdersCache); checkCustomerLedger(); renderTransportExpenses(); loadAdminPaymentSettings(); }
+    </script>
+</body>
+</html>
